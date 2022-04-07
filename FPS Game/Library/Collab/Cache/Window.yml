@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 61
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe70aba2e7074048aca5de573b64a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SimpleSelectedItems:
+    m_Keys:
+    - Assets/Animations/GunAim.anim
+    - Assets/Animations/GunAim.anim.meta
+    - Assets/Animations/GunIdle.anim
+    - Assets/Animations/GunPosition.controller
+    - Assets/Prefabs/GunPosition.prefab
+    - Assets/Prefabs/GunPosition.prefab.meta
+    - Assets/Prefabs/Guns/assault4.prefab
+    - Assets/Prefabs/Guns/pistol3 1.prefab
+    - Assets/Prefabs/Guns/smg1.prefab
+    - Assets/Prefabs/Guns/sniper1.prefab
+    - Assets/Scenes/SampleScene.unity
+    - Assets/Scripts/Gun.cs
+    - Assets/Scripts/PlayerController.cs
+    - Assets/Terrain/Terrain_0_0_6c9065b2-c9e2-46df-aeca-42c2210e2c43.asset
+    - Assets/Terrain/Terrain_0_0_6c9065b2-c9e2-46df-aeca-42c2210e2c43.asset.meta
+    - ProjectSettings/DynamicsManager.asset
+    - ProjectSettings/TagManager.asset
+    - 
+    m_Values: 000000000000000000000000000000000000
+  RevisionSummary: 
+  ChangesSearchValue: 
+  SelectedHistoryRevision: 
+  HistoryPageNumber: 0
+  TabIndex: 0
