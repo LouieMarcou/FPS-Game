@@ -1,0 +1,44 @@
+[
+  {
+    "MountId": "56e62dd7-241f-41e9-8c6b-dd4ca4513e62",
+    "AncestorCsetIds": [
+      2
+    ],
+    "SourceCsetId": 6,
+    "DestinationCsetId": 2,
+    "FileConflicts": [
+      {
+        "Path": "/ProjectSettings/DynamicsManager.asset",
+        "ItemId": 133,
+        "ParentItemId": 127,
+        "BaseRevId": 107,
+        "SourceRevId": 1814,
+        "DestinationRevId": 107
+      },
+      {
+        "Path": "/ProjectSettings/ProjectSettings.asset",
+        "ItemId": 141,
+        "ParentItemId": 127,
+        "BaseRevId": 115,
+        "SourceRevId": 1820,
+        "DestinationRevId": 115
+      },
+      {
+        "Path": "/ProjectSettings/ProjectVersion.txt",
+        "ItemId": 142,
+        "ParentItemId": 127,
+        "BaseRevId": 116,
+        "SourceRevId": 1821,
+        "DestinationRevId": 116
+      },
+      {
+        "Path": "/ProjectSettings/TagManager.asset",
+        "ItemId": 144,
+        "ParentItemId": 127,
+        "BaseRevId": 118,
+        "SourceRevId": 1823,
+        "DestinationRevId": 118
+      }
+    ]
+  }
+]
