@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEditor;
-using TMPro;
 [RequireComponent(typeof(CharacterController))]
 
 
@@ -23,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     public Transform playerBody;
     public Transform gunPosition;
+    private Transform camera_recoil;
+
     public Animator animate;
 
     private CharacterController controller;
@@ -39,6 +40,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Camera cam;
 
     private WaitForSeconds regentick = new WaitForSeconds(0.1f);
+    private WaitForSeconds staminaRegenWait = new WaitForSeconds(2f);
+    private WaitForSeconds healthRegenWait = new WaitForSeconds(7f);
 
     private Coroutine staminaRegen;
     private Coroutine healthRegen;
@@ -49,12 +52,11 @@ public class PlayerController : MonoBehaviour
 
     public float healthMax = 100f;
     private float currentHealth;
-
+    private float tempSpeed = 0f;
     private float sprintSpeed = 0f;
     private float staminaMax = 100f;
     private float currentStamina;
     private float staminaDrain = 15f;
-
     public float pickupDistance = 4f;
     private float targetFieldOfView = 60f;
 
@@ -69,14 +71,16 @@ public class PlayerController : MonoBehaviour
     private bool swapCheck = false;
     private bool pickupCheck = false;
     private bool canPickup = false;
+    private bool is_paused = false;
     private bool groundedPlayer;
 
-    private Transform camera_recoil;
+    
     #endregion
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
 
+        tempSpeed = playerSpeed;
         gunClone = Instantiate(gun1, gunPosition.transform, false);
         gunClone.transform.position = gunPosition.transform.position;
         gunClone.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -129,12 +133,12 @@ public class PlayerController : MonoBehaviour
         is_sprinting = context.action.triggered;
         if (context.performed)
         {
-            if (is_aiming)
+            if (is_aiming || fire || reload || currentGun.GetComponent<Gun>().reloadingCheck())
                 return;
-            if (fire)
-                return;
-            if (reload)
-                return;
+            //if (fire)
+            //    return;
+            //if (reload || currentGun.GetComponent<Gun>().reloadingCheck())
+            //    return;
             
             is_sprinting = true;
             updateSprint();
@@ -179,13 +183,12 @@ public class PlayerController : MonoBehaviour
             return;
         if (reload)
         {
-            //StopFiring();
             if (currentGun.GetComponent<Gun>().getShotsFired() != 0)
             {
+                playerSpeed -= 5;
                 currentGun.GetComponent<Gun>().Load();
                 cancelSprint();
             }
-
         }
     }
 
@@ -218,6 +221,7 @@ public class PlayerController : MonoBehaviour
     {
         pickupCheck = context.ReadValueAsButton();
         pickupCheck = context.action.triggered;
+        //Had a weird instance where I dropped a gun and was not able to pick it back up
         if (canPickup)
         {
             if (pickupCheck)
@@ -236,29 +240,26 @@ public class PlayerController : MonoBehaviour
             cancelSprint();
         if (context.performed)
         {
-            //targetFieldOfView = 40;
             playerSpeed -= 5;
+
+            animate.SetBool("Aiming", true);
             if (currentGun.GetComponent<Gun>().scope)
             {
                 animate.SetBool("Scoped", true);
                 StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
 
             }
-                
-            else
-                animate.SetBool("Aiming", true);
         }
         if (context.canceled)
         {
-            //targetFieldOfView = 60;
-            playerSpeed += 5;
+            resetPlayerSpeed();
             if (currentGun.GetComponent<Gun>().scope)
             {
                 animate.SetBool("Scoped", false);
                 gameObject.GetComponent<Scope>().OnUnscoped();
             }
-            else
-                animate.SetBool("Aiming", false);
+            animate.SetBool("Aiming", false);
+            
             is_aiming = false;
         }
     }
@@ -273,14 +274,26 @@ public class PlayerController : MonoBehaviour
         mouseInput.y = context.ReadValue<float>();
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        is_paused = context.ReadValueAsButton();
+        is_paused = context.action.triggered;
+        if(is_paused)
+        {
+            gameObject.GetComponent<PauseMenu>().checkIfPaused();
+        }
+    }
     void Update()
     {
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
-        //currentGun.layer = 2;
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
         updateHealth();
         updateStamina();
+        if (currentGun.GetComponent<Gun>().reloadingCheck() == false)
+        {
+            resetPlayerSpeed();
+        }
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFieldOfView, Time.deltaTime * 10f);
         groundedPlayer = controller.isGrounded;
 
@@ -382,7 +395,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RegenStamina()
     {
-        yield return new WaitForSeconds(2);//create a private variable for this
+        yield return staminaRegenWait;
 
         while (currentStamina < staminaMax)
         {
@@ -393,7 +406,7 @@ public class PlayerController : MonoBehaviour
         staminaRegen = null;
     }
 
-    public void updateHealth()//will detect raycast hits from enemy bullets and change health
+    public void updateHealth()//Will detect if your current health is lower than your max health and start the RegenHealth Coroutine
     {
         if (currentHealth < healthMax)
         {
@@ -406,15 +419,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void takeDamage(float amount)
+    public void takeDamage(float damage)//Will make player take damage
     {
-        currentHealth -= amount;
+        currentHealth -= damage;
         updateHealth();
     }
 
-    private IEnumerator RegenHealth()
+    private IEnumerator RegenHealth()//Health Regen Coroutine
     {
-        yield return new WaitForSeconds(7);//create a private variable for this
+        yield return healthRegenWait;
 
         while (currentHealth < healthMax)
         {
@@ -425,12 +438,12 @@ public class PlayerController : MonoBehaviour
         healthRegen = null;
     }
 
-    void StartFiring()
+    void StartFiring()//Starts rapid fire coroutine
     {
         rapidFireCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().RapidFire());
     }
 
-    void StopFiring()
+    void StopFiring()//Stops rapid fire coroutine
     {
         if (rapidFireCoroutine != null)
         {
@@ -438,13 +451,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void startHolster(GameObject secondGun)
+    void startHolster(GameObject secondGun)//Starts holster coroutine
     {
         holsterCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Holster(secondGun));
 
     }
 
-    void startDraw(GameObject secondGun)
+    void startDraw(GameObject secondGun)//Stars draw coroutine
     {
         drawCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Draw(secondGun));
 
@@ -456,7 +469,7 @@ public class PlayerController : MonoBehaviour
 
     }*/
 
-    void checkIfCanPickup()
+    void checkIfCanPickup()//Will check if a gun is in distance to pick up
     {
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, pickupDistance))
@@ -474,7 +487,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void pickupGun()
+    void pickupGun()//Will pick up gun and set it equal to current gun
     {
         currentGun = tempGun;
         currentGun.transform.position = gunPosition.position;
@@ -488,7 +501,7 @@ public class PlayerController : MonoBehaviour
         //currentGun.layer = 2;
     }
 
-    void dropGun()
+    void dropGun()//Will current gun if a gun in front of you is detected
     {
         currentGun.transform.parent = null;
         currentGun.GetComponent<Rigidbody>().isKinematic = false;
@@ -501,5 +514,10 @@ public class PlayerController : MonoBehaviour
     public bool getAiming()
     {
         return is_aiming;
+    }
+
+    public void resetPlayerSpeed()
+    {
+        playerSpeed = tempSpeed;
     }
 }

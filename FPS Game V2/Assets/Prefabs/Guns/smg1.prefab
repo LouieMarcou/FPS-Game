@@ -83,14 +83,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  recoilX: 0
-  recoilY: 0
-  recoilZ: 0
-  aimRecoilX: 0
-  aimRecoilY: 0
-  aimRecoilZ: 0
-  snappiness: 0
-  returnSpeed: 0
+  recoilX: -1
+  recoilY: 1
+  recoilZ: 0.35
+  aimRecoilX: -0.75
+  aimRecoilY: 1
+  aimRecoilZ: 0.35
+  snappiness: 6
+  returnSpeed: 2
 --- !u!54 &-2689677403855670180
 Rigidbody:
   m_ObjectHideFlags: 0

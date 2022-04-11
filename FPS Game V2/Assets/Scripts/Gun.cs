@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
-    //NEED TO MAKE A RELOAD TIMER FOR EACH GUN
-    //Add recoil to camera 
     #region variables
     //Scripts
     [SerializeField] public PlayerController player;
@@ -22,7 +20,6 @@ public class Gun : MonoBehaviour
     private int totalMaxAmmo;// currentAmmo + maxAmmo
     private int currentAmmo;//ammo on the left
 
-    #region floats
     public float reloadTime;
     //public float swapTime;
     public float holsterTime;
@@ -31,7 +28,6 @@ public class Gun : MonoBehaviour
     public float range = 100f;
     public float fireRate = 15f;
     private float nextTimeToFire = 0f;
-    #endregion
 
     private bool isReloading = false;
     private bool isSwaping = false;
@@ -174,8 +170,8 @@ public class Gun : MonoBehaviour
         shotsFired = 0;
         animator.SetBool("Reloading", false);
         //Debug.Log("Done");
-
         isReloading = false;
+        //player.GetComponent<PlayerController>().resetPlayerSpeed();
     }
 
     public IEnumerator Holster(GameObject secondGun)
@@ -187,6 +183,7 @@ public class Gun : MonoBehaviour
         //Debug.Log(isSwaping);
 
         yield return new WaitForSeconds(holsterTime);
+        //yield return holsterWait;
         animator.SetBool("Holster", false);
         gameObject.SetActive(false);
         hasHolstered = false;
@@ -265,6 +262,11 @@ public class Gun : MonoBehaviour
     public bool holsterCheck()
     {
         return hasHolstered;
+    }
+
+    public bool reloadingCheck()
+    {
+        return isReloading;
     }
 
     public string updateAmmoText()

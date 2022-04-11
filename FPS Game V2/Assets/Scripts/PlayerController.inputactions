@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=1.401298E-45,pressPoint=0.5)",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Pause Button",
+                    "type": "Button",
+                    "id": "8a67dcbe-96fc-46cd-8467-cb442324d7b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -402,6 +411,28 @@
                     "processors": "",
                     "groups": "Player",
                     "action": "AimDownSights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cb83d7c-b878-45b5-a946-d04adcd868a8",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player",
+                    "action": "Pause Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85d4ed0a-dc4e-4857-958d-884d04f89602",
+                    "path": "<DualShockGamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player",
+                    "action": "Pause Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
