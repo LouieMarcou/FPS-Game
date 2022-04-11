@@ -117,12 +117,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         movementInput = context.ReadValue<Vector2>();
         updateStamina();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         jumped = context.ReadValueAsButton();
         jumped = context.action.triggered;
     }
@@ -152,6 +156,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)//fires gun and checks if the gun has rapid fire
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         fire = context.ReadValueAsButton();
         fire = context.action.triggered;
         if (is_sprinting)
@@ -177,6 +183,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnReload(InputAction.CallbackContext context)//Reloads your current gun
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         reload = context.ReadValueAsButton();
         reload = context.action.triggered;
         if (currentGun.GetComponent<Gun>().maxAmmo <= 0)
@@ -194,6 +202,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwap(InputAction.CallbackContext context)//deactivates current gun and activates the other
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         swapCheck = context.ReadValueAsButton();
         swapCheck = context.action.triggered;
         if (swapCheck)
@@ -219,6 +229,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext context)//picks up new gun you are looking at and swaps the current gun with it
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         pickupCheck = context.ReadValueAsButton();
         pickupCheck = context.action.triggered;
         //Had a weird instance where I dropped a gun and was not able to pick it back up
@@ -234,6 +246,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         is_aiming = context.ReadValueAsButton();
         is_aiming = context.action.triggered;
         if (is_sprinting)
@@ -247,7 +261,6 @@ public class PlayerController : MonoBehaviour
             {
                 animate.SetBool("Scoped", true);
                 StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
-
             }
         }
         if (context.canceled)
@@ -266,11 +279,15 @@ public class PlayerController : MonoBehaviour
 
     public void MouseX(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         mouseInput.x = context.ReadValue<float>();
     }
 
     public void MouseY(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         mouseInput.y = context.ReadValue<float>();
     }
 
@@ -282,6 +299,7 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.GetComponent<PauseMenu>().checkIfPaused();
         }
+        
     }
     void Update()
     {

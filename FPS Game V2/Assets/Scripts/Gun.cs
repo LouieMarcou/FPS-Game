@@ -201,8 +201,6 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
         
         animator.SetBool("Draw", false);
-        
-        //Debug.Log("Swap completed");
         isSwaping = false;
     }
 
