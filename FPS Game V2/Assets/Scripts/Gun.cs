@@ -34,6 +34,7 @@ public class Gun : MonoBehaviour
     [SerializeField] public bool rapidFire = false;
     [SerializeField] public bool scope = false;
     private bool hasHolstered = false;
+    private bool isDrawing = false;
 
     private Camera cam;
     private WaitForSeconds rapidFireWait;
@@ -56,7 +57,7 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         rapidFireWait = new WaitForSeconds(1 / fireRate);
-        holsterWait = new WaitForSeconds(0.1f);
+        holsterWait = new WaitForSeconds(0.01f);
     }
     // Start is called before the first frame update
     void Start()
@@ -84,7 +85,11 @@ public class Gun : MonoBehaviour
     public void Shoot(bool check)
     {
         if (isReloading || isSwaping)
+        {
+            //Debug.Log(isSwaping);
             return;
+        }
+            
         
         if (currentAmmo <= 0)
         {
@@ -180,7 +185,7 @@ public class Gun : MonoBehaviour
         hasHolstered = true;
         animator.SetBool("Holster", true);
         //Debug.Log("Swapping weapons");
-        //Debug.Log(isSwaping);
+        Debug.Log(isSwaping);
 
         yield return new WaitForSeconds(holsterTime);
         //yield return holsterWait;
@@ -196,12 +201,17 @@ public class Gun : MonoBehaviour
             //Debug.Log("waiting");
             yield return holsterWait;
         }
+        isDrawing = true;
         secondGun.SetActive(true);
         animator.SetBool("Draw", true);
         yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
-        
+        Debug.Log(secondGun.GetComponent<Gun>().drawTime);
+        isDrawing = false;
+        Debug.Log(isDrawing);
         animator.SetBool("Draw", false);
+        
         isSwaping = false;
+        //Debug.Log(isSwaping);
     }
 
     /*public IEnumerator Swapping(GameObject secondGun)

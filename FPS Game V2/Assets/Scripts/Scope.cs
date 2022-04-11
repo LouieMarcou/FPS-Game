@@ -8,7 +8,7 @@ public class Scope : MonoBehaviour
     public GameObject weaponCamera;
     public Camera mainCamera;
 
-    public float scopedFOV = 15f;
+    public float scopedFOV = 0f;
     private float normalFOV = 60f;
     // Start is called before the first frame update
     void Start()

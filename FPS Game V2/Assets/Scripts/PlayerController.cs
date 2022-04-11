@@ -165,11 +165,11 @@ public class PlayerController : MonoBehaviour
         if (currentGun.GetComponent<Gun>().rapidFire)
         {
             currentGun.GetComponent<Gun>().getCamera(cam);
-            if (context.performed)//problem when player switches weapons while firing???
+            if (context.performed || currentGun.GetComponent<Gun>().holsterCheck())//problem when player switches weapons while firing???
             {
                 StartFiring();
             }
-            if (context.canceled)
+            if (context.canceled || reload || swapCheck)
             {
                 StopFiring();
             }
@@ -255,7 +255,6 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             playerSpeed -= 5;
-
             animate.SetBool("Aiming", true);
             if (currentGun.GetComponent<Gun>().scope)
             {
@@ -308,11 +307,11 @@ public class PlayerController : MonoBehaviour
         camera_recoil.localRotation = currentGun.transform.localRotation;
         updateHealth();
         updateStamina();
-        if (currentGun.GetComponent<Gun>().reloadingCheck() == false)
+        if (currentGun.GetComponent<Gun>().reloadingCheck() == false && !is_aiming)
         {
             resetPlayerSpeed();
         }
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFieldOfView, Time.deltaTime * 10f);
+        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFieldOfView, Time.deltaTime * 10f);
         groundedPlayer = controller.isGrounded;
 
         if (groundedPlayer && playerVelocity.y < 0)

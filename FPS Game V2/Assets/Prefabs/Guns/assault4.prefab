@@ -88,7 +88,7 @@ MonoBehaviour:
   maxAmmo: 50
   reloadTime: 1
   holsterTime: 1
-  drawTime: 0.8
+  drawTime: 1
   damage: 5
   range: 100
   fireRate: 10
