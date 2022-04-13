@@ -57,6 +57,7 @@ MonoBehaviour:
   magazineSize: 10
   maxAmmo: 30
   reloadTime: 1
+  swapTime: 1
   holsterTime: 0.5
   drawTime: 0.5
   damage: 2

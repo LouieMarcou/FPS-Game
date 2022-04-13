@@ -5,23 +5,24 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    float value;
-    bool start;
+    public float remaining = 100;
+    float minutes;
+    float seconds;
     public Text timerObject;
     // Start is called before the first frame update
     void Start()
     {
-        value = 0;
-        start = false;
+        minutes = Mathf.FloorToInt(remaining / 60);
+        seconds = Mathf.FloorToInt(remaining % 60);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //int newValue = (int)value;
-        //value = Mathf.Round(Time.time * 10f) * 0.1f;
-        value = Mathf.FloorToInt(Time.time);
-        timerObject.text = "Time: " + value;
-        //Debug.Log(value);
+        remaining -= Time.deltaTime;
+        minutes = Mathf.FloorToInt(remaining / 60);
+        seconds = Mathf.FloorToInt(remaining % 60);
+        timerObject.text = "Time: " +minutes + ":"+seconds;
+
     }
 }

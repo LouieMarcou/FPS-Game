@@ -89,8 +89,6 @@ public class Gun : MonoBehaviour
             //Debug.Log(isSwaping);
             return;
         }
-            
-        
         if (currentAmmo <= 0)
         {
             if (maxAmmo <= 0)
@@ -185,10 +183,10 @@ public class Gun : MonoBehaviour
         hasHolstered = true;
         animator.SetBool("Holster", true);
         //Debug.Log("Swapping weapons");
-        Debug.Log(isSwaping);
+        //Debug.Log(isSwaping);
 
         yield return new WaitForSeconds(holsterTime);
-        //yield return holsterWait;
+
         animator.SetBool("Holster", false);
         gameObject.SetActive(false);
         hasHolstered = false;
@@ -204,10 +202,11 @@ public class Gun : MonoBehaviour
         isDrawing = true;
         secondGun.SetActive(true);
         animator.SetBool("Draw", true);
+
         yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
-        Debug.Log(secondGun.GetComponent<Gun>().drawTime);
+        if (player.GetComponent<PlayerController>().getAiming())
+            yield return null;
         isDrawing = false;
-        Debug.Log(isDrawing);
         animator.SetBool("Draw", false);
         
         isSwaping = false;
@@ -280,6 +279,11 @@ public class Gun : MonoBehaviour
     public string updateAmmoText()
     {
         return currentAmmo.ToString() + " / " + maxAmmo.ToString();
+    }
+
+    public WaitForSeconds getHolsterWait()
+    {
+        return holsterWait;
     }
 
 }

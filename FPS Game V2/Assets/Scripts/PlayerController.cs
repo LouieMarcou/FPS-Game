@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
 
     private Vector3 playerVelocity;
+    
+
+    private Vector2 movementInput = Vector2.zero;
+    private Vector2 mouseInput;
 
     public GameObject gun1;
     public GameObject gun2;
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private WaitForSeconds regentick = new WaitForSeconds(0.1f);
     private WaitForSeconds staminaRegenWait = new WaitForSeconds(2f);
     private WaitForSeconds healthRegenWait = new WaitForSeconds(7f);
+    //private WaitForSeconds holsterWait = new WaitForSeconds(1f);
 
     private Coroutine staminaRegen;
     private Coroutine healthRegen;
@@ -58,10 +63,7 @@ public class PlayerController : MonoBehaviour
     private float currentStamina;
     private float staminaDrain = 15f;
     public float pickupDistance = 4f;
-    private float targetFieldOfView = 60f;
-
-    private Vector2 movementInput = Vector2.zero;
-    private Vector2 mouseInput;
+    //private float targetFieldOfView = 60f;
 
     private bool jumped = false;
     private bool fire = false;
@@ -72,6 +74,8 @@ public class PlayerController : MonoBehaviour
     private bool pickupCheck = false;
     private bool canPickup = false;
     private bool is_paused = false;
+    private bool is_holstering = false;
+    private bool is_drawing = false;
     private bool groundedPlayer;
 
     
@@ -118,7 +122,11 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+        {
+
             return;
+        }
+            
         movementInput = context.ReadValue<Vector2>();
         updateStamina();
     }
@@ -157,7 +165,11 @@ public class PlayerController : MonoBehaviour
     public void OnFire(InputAction.CallbackContext context)//fires gun and checks if the gun has rapid fire
     {
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+        {
+            
             return;
+        }
+            
         fire = context.ReadValueAsButton();
         fire = context.action.triggered;
         if (is_sprinting)
@@ -300,6 +312,7 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+
     void Update()
     {
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
@@ -331,8 +344,6 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
         checkIfCanPickup();
     }
-
-
 
     void OnCollisionEnter(Collision collision)//if you collied with something
     {
@@ -471,13 +482,44 @@ public class PlayerController : MonoBehaviour
     void startHolster(GameObject secondGun)//Starts holster coroutine
     {
         holsterCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Holster(secondGun));
+        //holsterCoroutine = StartCoroutine(holstering(secondGun));
 
+    }
+
+    IEnumerator holstering(GameObject secondGun)
+    {
+        is_holstering = true;
+        animate.SetBool("Holster", true);
+        
+        yield return new WaitForSeconds(currentGun.GetComponent<Gun>().holsterTime);
+
+        animate.SetBool("Holster", false);
+        currentGun.SetActive(false);
+        is_holstering = false;
     }
 
     void startDraw(GameObject secondGun)//Stars draw coroutine
     {
         drawCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Draw(secondGun));
+        //drawCoroutine = StartCoroutine(drawing(secondGun));
 
+    }
+
+    IEnumerator drawing(GameObject secondGun)
+    {
+        while(is_holstering)
+        {
+            yield return currentGun.GetComponent<Gun>().getHolsterWait();
+        }
+        is_drawing = true;
+        secondGun.SetActive(true);
+        animate.SetBool("Draw", true);
+
+        yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
+
+        is_drawing = false;
+        animate.SetBool("Draw", false);
+        currentGun = secondGun;
     }
 
     /*void startSwapping(GameObject secondGun)
