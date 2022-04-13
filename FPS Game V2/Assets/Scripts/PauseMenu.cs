@@ -30,6 +30,8 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         gameIsPaused = false;
+        mouselook mouse = gameObject.GetComponentInParent(typeof(mouselook)) as mouselook;
+        mouse.enabled = true;
     }
 
     public void Pause()

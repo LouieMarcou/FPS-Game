@@ -30,4 +30,9 @@ public class mouselook : MonoBehaviour
         mouseX = mouseInput.x * sensitivityX;
         mouseY = mouseInput.y * sensitivityY;        
     }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
 }

@@ -190,6 +190,7 @@ public class Gun : MonoBehaviour
         animator.SetBool("Holster", false);
         gameObject.SetActive(false);
         hasHolstered = false;
+
     }
 
     public IEnumerator Draw(GameObject secondGun)
@@ -235,6 +236,19 @@ public class Gun : MonoBehaviour
         }
         StartCoroutine(Reload());
     }
+
+    //public IEnumerator moveToHolster(Transform currentPosition, Transform targetPosition)
+    //{
+    //    float elapsedTime = 0f;
+    //    while(elapsedTime<holsterTime)
+    //    {
+
+    //        transform.position = Vector3.Lerp(currentPosition.position, targetPosition.position, elapsedTime/holsterTime);
+    //        elapsedTime += Time.deltaTime;
+    //    }
+    //    transform.position = targetPosition.position;
+    //}
+
 
     public void setPosition(Transform position)
     {

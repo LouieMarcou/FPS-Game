@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform playerBody;
     public Transform gunPosition;
+    public Transform holsterPosition;
     private Transform camera_recoil;
 
     public Animator animate;
@@ -30,8 +31,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 playerVelocity;
     
-
     private Vector2 movementInput = Vector2.zero;
+    private Vector2 pauseMovementInput = Vector2.zero;
     private Vector2 mouseInput;
 
     public GameObject gun1;
@@ -123,7 +124,6 @@ public class PlayerController : MonoBehaviour
     {
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
         {
-
             return;
         }
             
@@ -224,6 +224,8 @@ public class PlayerController : MonoBehaviour
             if (gunClone.activeInHierarchy)
             {
                 //startSwapping(gunClone2);//ammo text does not update properly in time with the changing of guns
+                //gunClone.GetComponent<Gun>().moveToHolster(gunPosition,holsterPosition);
+                //startHolster(gunPosition, holsterPosition);
                 startHolster(gunClone);
                 startDraw(gunClone2);
                 currentGun = gunClone2;
@@ -308,6 +310,16 @@ public class PlayerController : MonoBehaviour
         is_paused = context.action.triggered;
         if(is_paused)
         {
+            //look.SetActive(false);
+            movementInput = pauseMovementInput;
+            mouseInput.x = 0f;
+            mouseInput.y = 0f;
+            StopFiring();
+            animate.SetBool("Aiming", false);
+            animate.SetBool("Scoped", false);
+            gameObject.GetComponent<Scope>().OnUnscoped();
+            resetPlayerSpeed();
+            gameObject.GetComponent<mouselook>().enabled = false;
             gameObject.GetComponent<PauseMenu>().checkIfPaused();
         }
         
@@ -486,6 +498,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //void startHolster(Transform gunPosition, Transform holsterPosition)//Starts holster coroutine
+    //{
+    //    holsterCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().moveToHolster(gunPosition, holsterPosition));
+    //    //holsterCoroutine = StartCoroutine(holstering(secondGun));
+
+    //}
+
     IEnumerator holstering(GameObject secondGun)
     {
         is_holstering = true;
@@ -557,7 +576,7 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().isKinematic = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        //currentGun.layer = 2;
+        currentGun.layer = 7;
     }
 
     void dropGun()//Will current gun if a gun in front of you is detected
@@ -566,7 +585,7 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().isKinematic = false;
         currentGun.GetComponent<Rigidbody>().useGravity = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        //currentGun.layer = 7;
+        currentGun.layer = 10;
         currentGun = null;
     }
 
