@@ -32,12 +32,14 @@ public class Gun : MonoBehaviour
     private bool isReloading = false;
     private bool isSwaping = false;
     [SerializeField] public bool rapidFire = false;
+    [SerializeField] public bool burstFire = false;
     [SerializeField] public bool scope = false;
     private bool hasHolstered = false;
     private bool isDrawing = false;
 
     private Camera cam;
     private WaitForSeconds rapidFireWait;
+    private WaitForSeconds burstFireWait;
     private WaitForSeconds weaponSwapWait;
     private WaitForSeconds holsterWait;
 
@@ -52,12 +54,14 @@ public class Gun : MonoBehaviour
     private Recoil recoil_script;
 
     public AudioSource shoot_sound_source, reloadSound_source;//sounds
-    //public static AudioSource hitMarker;
+    public AudioSource hitMarker;
     #endregion
     private void Awake()
     {
         rapidFireWait = new WaitForSeconds(1 / fireRate);
+        burstFireWait = new WaitForSeconds(1 / fireRate);//change this value to fix the burst fire problem?
         holsterWait = new WaitForSeconds(0.01f);
+
     }
     // Start is called before the first frame update
     void Start()
@@ -67,19 +71,28 @@ public class Gun : MonoBehaviour
         recoil_script = gameObject.GetComponent<Recoil>();
         shoot_sound_source = transform.Find("AudioSourceShoot").GetComponent<AudioSource>();
         reloadSound_source = transform.Find("AudioSourceReload").GetComponent<AudioSource>();
+        hitMarker = transform.Find("AudioSourceHitMarker").GetComponent<AudioSource>();
+        //animator = null;
     }
 
     void OnEnable()
     {
         isReloading = false;
-        animator.SetBool("Reloading", false);
+        if(animator!=null)
+        {
+            animator.SetBool("Reloading", false);
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localRotation = pos.localRotation;
-        //Debug.Log(maxAmmo);
+        if(pos!=null)
+        {
+            transform.localRotation = pos.localRotation;
+        }
+        
     }
 
     public void Shoot(bool check)
@@ -111,7 +124,7 @@ public class Gun : MonoBehaviour
         currentAmmo--;
         shotsFired++;
         int random = Random.Range(0, 5);
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
         RaycastHit hit;
         holdFlash = muzzelFlashPool.GetComponent<NewObjectPool>().releaseRandom(); //Object Pool atempt
         holdFlash.transform.position = muzzelSpawn.transform.position;
@@ -127,6 +140,7 @@ public class Gun : MonoBehaviour
             PlayerController player = hit.transform.GetComponent<PlayerController>();
             if(player != null)
             {
+
                 player.takeDamage(damage);
                 
             }
@@ -152,16 +166,33 @@ public class Gun : MonoBehaviour
         }
     }
 
+    public IEnumerator BurstFire()//alter so that you have to wait for the burst to finish to fire again
+    {
+        int count = 0;
+        if(burstFire)
+        {
+            while(count<3)
+            {
+                Shoot(burstFire);
+                count++;
+                yield return burstFireWait;//change this value to fix the problem?
+            }
+        }
+        else
+        {
+            Shoot(burstFire);
+            yield return null;
+        }
+    }
+
     IEnumerator Reload()
     {    
         isReloading = true;
-        //Debug.Log("Reloading...");
         animator.SetBool("Reloading", true);
         if (reloadSound_source)
             reloadSound_source.Play();
         yield return new WaitForSeconds(reloadTime);
         
-        //Debug.Log(maxAmmo);
         if (shotsFired > maxAmmo)
         {
             shotsFired = maxAmmo;
@@ -172,9 +203,7 @@ public class Gun : MonoBehaviour
 
         shotsFired = 0;
         animator.SetBool("Reloading", false);
-        //Debug.Log("Done");
         isReloading = false;
-        //player.GetComponent<PlayerController>().resetPlayerSpeed();
     }
 
     public IEnumerator Holster(GameObject secondGun)

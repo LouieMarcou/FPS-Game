@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7406473251293697077}
   - component: {fileID: 3421293992201049160}
   - component: {fileID: 620959687600414850}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: smg1
   m_TagString: Gun
   m_Icon: {fileID: 0}
@@ -70,6 +70,7 @@ MonoBehaviour:
   bulletHole: {fileID: 7907528202977083369, guid: 293f185ab1c3dab47b0b3cedeff5ab58, type: 3}
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
+  hitMarker: {fileID: 0}
 --- !u!114 &40811002977813695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4869555901542415178}
   - component: {fileID: 4685558848823470314}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: AudioSourceReload
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2260668655492848947}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: ShootLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8742416692955559826}
   - component: {fileID: 7799631462114001819}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: AudioSourceShoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

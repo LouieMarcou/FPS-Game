@@ -1,0 +1,40 @@
+{
+    "name": "Global Actions",
+    "maps": [
+        {
+            "name": "Global Actions",
+            "id": "2e00cedd-1801-4e78-a91a-615a53a95a8f",
+            "actions": [
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "bcb552a6-e8ce-47c5-b6d2-a9a70703f4a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b0bff885-e5e4-411d-9dda-f0a5e41931ed",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Global Actions",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Global Actions",
+            "bindingGroup": "Global Actions",
+            "devices": []
+        }
+    ]
+}

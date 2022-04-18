@@ -31,8 +31,7 @@ public class Scope : MonoBehaviour
 
     public IEnumerator OnScoped()
     {
-        Debug.Log(sniperScopeOverlay);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.15f);
 
         sniperScopeOverlay.SetActive(true);
         weaponCamera.SetActive(false);

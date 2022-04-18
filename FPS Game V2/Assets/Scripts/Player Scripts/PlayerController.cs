@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] mouselook look;
+
+    //public Canvas playerCanvas;
+
     public Slider staminaBar;
     public Slider healthBar;
 
@@ -30,7 +33,8 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
 
     private Vector3 playerVelocity;
-    
+    private Vector3 killArea = new Vector3(0.0f,-20.0f,0.0f);
+
     private Vector2 movementInput = Vector2.zero;
     private Vector2 pauseMovementInput = Vector2.zero;
     private Vector2 mouseInput;
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour
     private Coroutine staminaRegen;
     private Coroutine healthRegen;
     private Coroutine rapidFireCoroutine;
+    private Coroutine burstFireCoroutine;
     private Coroutine weaponSwapCoroutine;
     private Coroutine holsterCoroutine;
     private Coroutine drawCoroutine;
@@ -77,6 +82,7 @@ public class PlayerController : MonoBehaviour
     private bool is_paused = false;
     private bool is_holstering = false;
     private bool is_drawing = false;
+    private bool is_joining = false;
     private bool groundedPlayer;
 
     
@@ -141,16 +147,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
         is_sprinting = context.ReadValueAsButton();
         is_sprinting = context.action.triggered;
+
         if (context.performed)
         {
-            if (is_aiming || fire || reload || currentGun.GetComponent<Gun>().reloadingCheck())
+            if (is_aiming || fire || reload || currentGun.GetComponent<Gun>().reloadingCheck() || movementInput == Vector2.zero)//not canceling function properly. will still drain if aiming
                 return;
-            //if (fire)
-            //    return;
-            //if (reload || currentGun.GetComponent<Gun>().reloadingCheck())
-            //    return;
             
             is_sprinting = true;
             updateSprint();
@@ -166,7 +171,6 @@ public class PlayerController : MonoBehaviour
     {
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
         {
-            
             return;
         }
             
@@ -180,6 +184,18 @@ public class PlayerController : MonoBehaviour
             if (context.performed || currentGun.GetComponent<Gun>().holsterCheck())//problem when player switches weapons while firing???
             {
                 StartFiring();
+            }
+            if (context.canceled || reload || swapCheck)
+            {
+                StopFiring();
+            }
+        }
+        else if(currentGun.GetComponent<Gun>().burstFire)
+        {
+            currentGun.GetComponent<Gun>().getCamera(cam);
+            if(context.performed || currentGun.GetComponent<Gun>().holsterCheck())
+            {
+                BurstFiring();
             }
             if (context.canceled || reload || swapCheck)
             {
@@ -250,7 +266,7 @@ public class PlayerController : MonoBehaviour
         //Had a weird instance where I dropped a gun and was not able to pick it back up
         if (canPickup)
         {
-            if (pickupCheck)
+            if (pickupCheck)//can't pick up new guns
             {
                 dropGun();
                 pickupGun();
@@ -270,7 +286,7 @@ public class PlayerController : MonoBehaviour
         {
             playerSpeed -= 5;
             animate.SetBool("Aiming", true);
-            if (currentGun.GetComponent<Gun>().scope)
+            if (currentGun.GetComponent<Gun>().scope && animate.GetBool("Aiming"))//goes to scope just on click and does not leave
             {
                 animate.SetBool("Scoped", true);
                 StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
@@ -325,13 +341,25 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void OnJoin(InputAction.CallbackContext context)
+    {
+        is_joining = context.ReadValueAsButton();
+        is_joining = context.action.triggered;
+        if(is_joining)
+        {
+            Debug.Log("Joined?");
+        }
+        
+    }
+
     void Update()
     {
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
         updateHealth();
-        updateStamina();
+        if(is_sprinting)
+            updateStamina();
         if (currentGun.GetComponent<Gun>().reloadingCheck() == false && !is_aiming)
         {
             resetPlayerSpeed();
@@ -355,6 +383,11 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
         checkIfCanPickup();
+        //if(transform.position.y<=killArea.y)
+        //{
+        //    currentHealth = 0;
+        //    //Debug.Log("DIE");
+        //}
     }
 
     void OnCollisionEnter(Collision collision)//if you collied with something
@@ -386,6 +419,11 @@ public class PlayerController : MonoBehaviour
             {
                 currentGun.GetComponent<Gun>().Load();
             }
+        }
+        if(collision.gameObject.tag == "KillTag")
+        {
+            Debug.Log("IN ZONE");
+            currentHealth = 0;
         }
     }
 
@@ -483,11 +521,20 @@ public class PlayerController : MonoBehaviour
         rapidFireCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().RapidFire());
     }
 
-    void StopFiring()//Stops rapid fire coroutine
+    void BurstFiring()//Starts burst fire coroutine
+    {
+        burstFireCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().BurstFire());
+    }
+
+    void StopFiring()//Stops rapid fire coroutine or burst fire coroutine
     {
         if (rapidFireCoroutine != null)
         {
             StopCoroutine(rapidFireCoroutine);
+        }
+        if (burstFireCoroutine != null)
+        {
+            StopCoroutine(burstFireCoroutine);
         }
     }
 
@@ -554,7 +601,8 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Gun")
             {
-                //Debug.Log("Can grab it");
+                Debug.Log("Can grab it");
+                //display controll to pick up
                 canPickup = true;
                 tempGun = hit.transform.gameObject;
             }
@@ -574,7 +622,7 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Gun>().ammo = gameObject.GetComponent<PlayerController>().ammo;
         currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         currentGun.GetComponent<Rigidbody>().isKinematic = true;
-        currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        //currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
         currentGun.layer = 7;
     }
@@ -597,5 +645,14 @@ public class PlayerController : MonoBehaviour
     public void resetPlayerSpeed()
     {
         playerSpeed = tempSpeed;
+    }
+
+    public float getCurrentHealth()
+    {
+        return currentHealth;
+    }
+    public void resetHealth()
+    {
+        currentHealth = healthMax;
     }
 }

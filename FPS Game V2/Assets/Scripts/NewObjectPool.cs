@@ -26,7 +26,7 @@ public class NewObjectPool : MonoBehaviour
         GameObject tmp;
         for (int i = 0; i < pool.Length; i++)
         {
-            tmp = Instantiate(pool[i]);
+            tmp = Instantiate(pool[i],gameObject.transform);
             //Debug.Log(tmp);
             secretPool[i] = tmp;
             tmp.SetActive(false);

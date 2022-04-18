@@ -27,11 +27,15 @@ public class SharedPool : MonoBehaviour
             pooledObjects.Add(tmp);
             //Debug.Log("yes");
         }
+        if(objectToPool.tag == "AmmoPickup")
+        {
+            //give spawn locations
+        }
         else
         {
             for (int i = 0; i < amountToPool; i++)
             {
-                tmp = Instantiate(objectToPool);
+                tmp = Instantiate(objectToPool,gameObject.transform);
                 tmp.SetActive(false);
                 pooledObjects.Add(tmp);
             

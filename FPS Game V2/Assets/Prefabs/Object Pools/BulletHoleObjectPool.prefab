@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7907528202977083367}
   - component: {fileID: -6191669542974208704}
-  - component: {fileID: 7907528202977083366}
   m_Layer: 0
   m_Name: BulletHoleObjectPool
   m_TagString: Untagged
@@ -42,46 +41,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d9cbbc2e475ef2429d6e620f8f5fe0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pooledObjects:
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  objectToPool: {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  amountToPool: 25
---- !u!114 &7907528202977083366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7907528202977083369}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42655b7bded856c478c61c5666fce936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pooledObjects:

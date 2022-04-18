@@ -30,15 +30,17 @@ public class Recoil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(gameObject);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        isAiming = player.GetComponent<PlayerController>().getAiming();
-        //isAiming = player.getAiming();
-
+        if(!player==null)
+        {
+            isAiming = player.GetComponent<PlayerController>().getAiming();
+        }
+        
 
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);

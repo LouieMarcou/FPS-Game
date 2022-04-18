@@ -92,13 +92,22 @@
                     "id": "a5e4636c-452b-4c62-8a2e-83779ffea13a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=1.401298E-45,pressPoint=0.5)",
+                    "interactions": "",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Pause Button",
                     "type": "Button",
                     "id": "8a67dcbe-96fc-46cd-8467-cb442324d7b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "a709e53f-288b-4f73-88c2-63c919439973",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -123,7 +132,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -134,7 +143,7 @@
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -145,7 +154,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -156,7 +165,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -178,7 +187,7 @@
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -189,7 +198,7 @@
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -200,7 +209,7 @@
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -211,7 +220,7 @@
                     "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -222,18 +231,18 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "243f4bda-4b4b-445f-a8fa-240540cc0c0f",
-                    "path": "<DualShockGamepad>/buttonSouth",
+                    "id": "1b55551c-ec5a-4722-b507-48ef23c2cd3e",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -244,7 +253,7 @@
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -255,30 +264,8 @@
                     "path": "<DualShockGamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Sprint",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "eba04fbc-e228-4d98-9ed9-9719748c2e2f",
-                    "path": "<Mouse>/delta/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Player",
-                    "action": "MouseX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3a06ce59-0c0c-4aaa-a74c-5b49ba97d6a5",
-                    "path": "<DualShockGamepad>/rightStick/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Player",
-                    "action": "MouseX",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -288,18 +275,18 @@
                     "path": "<Mouse>/delta/y",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "MouseY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "bd5b7fe0-08b8-41fa-9547-8bbfd7a5c558",
-                    "path": "<DualShockGamepad>/rightStick/y",
+                    "id": "2aa08828-3156-490c-9ad9-4c81777821b0",
+                    "path": "<Gamepad>/rightStick/y",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "MouseY",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -310,18 +297,18 @@
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "664840d6-6a38-4399-bda7-9c8d37a74acc",
-                    "path": "<DualShockGamepad>/buttonWest",
+                    "id": "a30a9f39-21b2-491f-8f07-3c04f337c874",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -332,7 +319,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -340,10 +327,10 @@
                 {
                     "name": "",
                     "id": "cb9078ca-57e2-4cdc-9fe2-4ed38a8e7dbb",
-                    "path": "<DualShockGamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -354,7 +341,7 @@
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "SwapWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -362,10 +349,10 @@
                 {
                     "name": "",
                     "id": "79e83969-2674-4c9b-986d-c72e3ef5bc63",
-                    "path": "<DualShockGamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "SwapWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -376,7 +363,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "PickupWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -384,10 +371,10 @@
                 {
                     "name": "",
                     "id": "dc7afff9-3a72-4e12-8a47-eccfc0f0623d",
-                    "path": "<DualShockGamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "PickupWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -398,7 +385,7 @@
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "AimDownSights",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -406,10 +393,10 @@
                 {
                     "name": "",
                     "id": "a053bd43-05ba-4155-90d8-ebeaf7639ffd",
-                    "path": "<DualShockGamepad>/leftTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "AimDownSights",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -420,7 +407,7 @@
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Keyboard",
                     "action": "Pause Button",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -428,11 +415,77 @@
                 {
                     "name": "",
                     "id": "85d4ed0a-dc4e-4857-958d-884d04f89602",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Pause Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52eec48b-bf0c-419b-a01d-78ccdf469868",
                     "path": "<DualShockGamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Player",
+                    "groups": "Controller",
                     "action": "Pause Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54e6b2ab-6c61-4222-bef7-35bdc4d19fe1",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d204e9c9-995b-48e1-a703-58b07e6607e8",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3be1c115-3aae-41bc-b8e0-79a77c98f9e7",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MouseX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11191acc-cac0-4886-914e-a47b47baf4c5",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "MouseX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e807eeaa-ab16-4c62-ad90-3546b65c9857",
+                    "path": "<DualShockGamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -441,8 +494,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "Player",
-            "bindingGroup": "Player",
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
@@ -450,7 +503,18 @@
                     "isOR": false
                 },
                 {
-                    "devicePath": "<DualShockGamepad>",
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }
