@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private Transform camera_recoil;
 
     public Animator animate;
+    public GameObject spawnPoint;
 
     private CharacterController controller;
 
@@ -89,6 +90,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     private void Start()
     {
+        transform.localPosition = spawnPoint.transform.position;//makes player spawn at spawn point. Currently not working
         controller = gameObject.GetComponent<CharacterController>();
 
         tempSpeed = playerSpeed;
@@ -306,6 +308,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        mouseInput = context.ReadValue<Vector2>();
+    }
+
     public void MouseX(InputAction.CallbackContext context)
     {
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
@@ -328,6 +335,7 @@ public class PlayerController : MonoBehaviour
         {
             //look.SetActive(false);
             movementInput = pauseMovementInput;
+            mouseInput = Vector2.zero;
             mouseInput.x = 0f;
             mouseInput.y = 0f;
             StopFiring();

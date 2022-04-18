@@ -73,6 +73,7 @@ public class Gun : MonoBehaviour
         reloadSound_source = transform.Find("AudioSourceReload").GetComponent<AudioSource>();
         hitMarker = transform.Find("AudioSourceHitMarker").GetComponent<AudioSource>();
         //animator = null;
+        //add variable to change the recoil of the camera???
     }
 
     void OnEnable()
