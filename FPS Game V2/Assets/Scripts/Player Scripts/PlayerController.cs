@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private bool reload = false;
     private bool is_sprinting = false;
     private bool is_aiming = false;
+    private bool using_scope = false;
     private bool swapCheck = false;
     private bool pickupCheck = false;
     private bool canPickup = false;
@@ -86,7 +87,8 @@ public class PlayerController : MonoBehaviour
     private bool is_joining = false;
     private bool groundedPlayer;
 
-    
+    Ray ray;
+    RaycastHit hit;
     #endregion
     private void Start()
     {
@@ -125,6 +127,7 @@ public class PlayerController : MonoBehaviour
         healthBar.value = healthMax;
 
         camera_recoil = transform.Find("CameraRotation/CameraRecoil");
+        ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
 
     }
 
@@ -261,6 +264,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext context)//picks up new gun you are looking at and swaps the current gun with it
     {
+        //if gun is attached to a player then return
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
             return;
         pickupCheck = context.ReadValueAsButton();
@@ -288,24 +292,55 @@ public class PlayerController : MonoBehaviour
         {
             playerSpeed -= 5;
             animate.SetBool("Aiming", true);
-            if (currentGun.GetComponent<Gun>().scope && animate.GetBool("Aiming"))//goes to scope just on click and does not leave
+            //if (currentGun.GetComponent<Gun>().scope && animate.GetBool("Aiming"))//goes to scope just on click and does not leave
+            //{
+            //    animate.SetBool("Scoped", true);
+            //    StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
+            //}
+            if (reload)
             {
-                animate.SetBool("Scoped", true);
-                StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
+                Debug.Log("must exit");
             }
         }
         if (context.canceled)
         {
             resetPlayerSpeed();
+            //if (currentGun.GetComponent<Gun>().scope)
+            //{
+            //    animate.SetBool("Scoped", false);
+            //    gameObject.GetComponent<Scope>().OnUnscoped();
+            //}
+            animate.SetBool("Aiming", false);
+            
+            is_aiming = false;
+        }
+    }
+
+    public void OnScope(InputAction.CallbackContext context)
+    {
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+            return;
+        using_scope = context.ReadValueAsButton();
+        using_scope = context.action.triggered;
+        if (is_sprinting)
+            cancelSprint();
+        if(context.performed)
+        {
+            if (currentGun.GetComponent<Gun>().scope)//goes to scope just on click and does not leave
+            {
+                animate.SetBool("Scoped", true);
+                StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
+            }
+        }
+        if(context.canceled)
+        {
             if (currentGun.GetComponent<Gun>().scope)
             {
                 animate.SetBool("Scoped", false);
                 gameObject.GetComponent<Scope>().OnUnscoped();
             }
-            animate.SetBool("Aiming", false);
-            
-            is_aiming = false;
         }
+        using_scope = false;
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -362,6 +397,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
+        //if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
+        //{
+        //    //PlayerController player = hit.transform.GetComponent<PlayerController>();
+        //    //player.takeDamage(5f);
+        //    Debug.Log(hit.transform.name);
+        //}
+        Debug.Log(currentHealth);
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
@@ -663,4 +706,14 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = healthMax;
     }
+
+    //public Ray getRay()
+    //{
+    //    return ray;
+    //}
+
+    //public RaycastHit getRaycastHit()
+    //{
+    //    return hit;
+    //}
 }

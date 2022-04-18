@@ -89,7 +89,7 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(pos!=null)
+        if (pos!=null)
         {
             transform.localRotation = pos.localRotation;
         }
@@ -127,20 +127,26 @@ public class Gun : MonoBehaviour
         int random = Random.Range(0, 5);
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
         RaycastHit hit;
+        //RaycastHit hit = player.GetComponent<PlayerController>().getRaycastHit();
         holdFlash = muzzelFlashPool.GetComponent<NewObjectPool>().releaseRandom(); //Object Pool atempt
         holdFlash.transform.position = muzzelSpawn.transform.position;
         holdFlash.transform.rotation = muzzelSpawn.transform.rotation * Quaternion.Euler(0, 0, 90);
         holdFlash.SetActive(true);
+        int layerMask = 1 << 8;
         if (shoot_sound_source)
             shoot_sound_source.Play();
-        if (Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range,7))
+        if (Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range,layerMask))
         {
+            Debug.DrawRay(cam.transform.position, cam.transform.forward);
             //Debug.Log(hit.transform.name);
             
-            //Target target = hit.transform.GetComponent<Target>();
+            Target target = hit.transform.GetComponent<Target>();
             PlayerController player = hit.transform.GetComponent<PlayerController>();
+            Debug.Log(player);
             if(player != null)
             {
+
+                //target.TakeDamage(damage);
 
                 player.takeDamage(damage);
                 

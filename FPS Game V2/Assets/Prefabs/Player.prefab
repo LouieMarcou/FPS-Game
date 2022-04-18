@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 8535573645343353838}
   - component: {fileID: 6770504598470789524}
   - component: {fileID: -207599492090121869}
+  - component: {fileID: 4459882925358276572}
   - component: {fileID: 8510763742572833777}
   - component: {fileID: 8510763742572833773}
   - component: {fileID: 8510763742572833772}
@@ -735,6 +736,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8510763742572833779}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnScope
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2809c95c-95de-4fa5-bb1a-8fc8fd94718c
+    m_ActionName: Player/Scope[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8510763742572833779}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 72a45769-b759-45d0-8ff5-758a7af1d03c
+    m_ActionName: Player/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -785,6 +818,19 @@ MonoBehaviour:
   weaponCamera: {fileID: 7607247800115725563}
   mainCamera: {fileID: 8510763743678982222}
   scopedFOV: 15
+--- !u!114 &4459882925358276572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8510763742572833783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537a59172aabc114abf5e953d0bbd7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
 --- !u!143 &8510763742572833777
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1320,17 +1366,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4618742226694366992 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3655936651008741110, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
+--- !u!1 &4618742227951188286 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3655936651896787160, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
   m_PrefabInstance: {fileID: 8261130682533931494}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4618742227168591860 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3655936650543437330, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
@@ -1352,11 +1392,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4618742227951188286 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3655936651896787160, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
+--- !u!114 &4618742226694366992 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3655936651008741110, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
   m_PrefabInstance: {fileID: 8261130682533931494}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8510763741942328134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1419,13 +1465,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 5269d617b4142814499537b7238d1ed0, type: 3}
---- !u!4 &1272370090823642268 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7472618929788078042, guid: 5269d617b4142814499537b7238d1ed0, type: 3}
-  m_PrefabInstance: {fileID: 8510763741942328134}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1272370090823642269 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7472618929788078043, guid: 5269d617b4142814499537b7238d1ed0, type: 3}
+  m_PrefabInstance: {fileID: 8510763741942328134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1272370090823642268 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7472618929788078042, guid: 5269d617b4142814499537b7238d1ed0, type: 3}
   m_PrefabInstance: {fileID: 8510763741942328134}
   m_PrefabAsset: {fileID: 0}
