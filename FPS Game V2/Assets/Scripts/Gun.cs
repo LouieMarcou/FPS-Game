@@ -127,7 +127,6 @@ public class Gun : MonoBehaviour
         int random = Random.Range(0, 5);
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
         RaycastHit hit;
-        //RaycastHit hit = player.GetComponent<PlayerController>().getRaycastHit();
         holdFlash = muzzelFlashPool.GetComponent<NewObjectPool>().releaseRandom(); //Object Pool atempt
         holdFlash.transform.position = muzzelSpawn.transform.position;
         holdFlash.transform.rotation = muzzelSpawn.transform.rotation * Quaternion.Euler(0, 0, 90);
@@ -136,23 +135,32 @@ public class Gun : MonoBehaviour
         if (shoot_sound_source)
             shoot_sound_source.Play();
         if (Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range,layerMask))
-        {
-            Debug.DrawRay(cam.transform.position, cam.transform.forward);
-            //Debug.Log(hit.transform.name);
-            
-            Target target = hit.transform.GetComponent<Target>();
-            PlayerController player = hit.transform.GetComponent<PlayerController>();
-            Debug.Log(player);
-            if(player != null)
+        {            
+            PlayerController target = hit.transform.GetComponent<PlayerController>();
+            SharedPool.SharedInstance.setRaycastHit(hit);
+            if(target != null)
             {
 
-                //target.TakeDamage(damage);
+                target.takeDamage(damage);
 
-                player.takeDamage(damage);
+                //SharedPool.SharedInstance.createBlood();
+                //GameObject.Find("BloodEffectPool").GetComponent<SharedPool>().createBlood();
+                if(target.getCurrentHealth()<=0)
+                {
+                    Debug.Log("Player has died");
+                    player.GetComponent<PlayerController>().updateKills();
+                }
                 
             }
-            SharedPool.SharedInstance.setRaycastHit(hit);
-            SharedPool.SharedInstance.createBulletHole();
+            //else
+            //{
+            //    SharedPool.SharedInstance.createBulletHole();
+
+            //}
+            //SharedPool.SharedInstance.setRaycastHit(hit);
+            //
+            //SharedPool.SharedInstance.createBulletHole();
+            //GameObject.Find("BulletHoleObjectPool").GetComponent<SharedPool>().createBulletHole();
         }
     }
 

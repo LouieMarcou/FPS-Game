@@ -22,19 +22,19 @@ public class PlayerController : MonoBehaviour
     public Slider healthBar;
 
     public Text ammo;
+    public Text killText;
+    public Text deathText;
 
     public Transform playerBody;
     public Transform gunPosition;
     public Transform holsterPosition;
     private Transform camera_recoil;
-
+    public Transform deathZone;
     public Animator animate;
-    public GameObject spawnPoint;
 
     private CharacterController controller;
 
     private Vector3 playerVelocity;
-    private Vector3 killArea = new Vector3(0.0f,-20.0f,0.0f);
 
     private Vector2 movementInput = Vector2.zero;
     private Vector2 pauseMovementInput = Vector2.zero;
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private GameObject gunClone2;
     private GameObject currentGun;
     private GameObject tempGun;
+
 
     [SerializeField] public Camera cam;
 
@@ -72,6 +73,10 @@ public class PlayerController : MonoBehaviour
     public float pickupDistance = 4f;
     //private float targetFieldOfView = 60f;
 
+    private int kills = 0;
+    private int deaths = 0;
+    private int count = 0;
+
     private bool jumped = false;
     private bool fire = false;
     private bool reload = false;
@@ -86,13 +91,15 @@ public class PlayerController : MonoBehaviour
     private bool is_drawing = false;
     private bool is_joining = false;
     private bool groundedPlayer;
+    private bool isAlive = true;
 
     Ray ray;
     RaycastHit hit;
     #endregion
+
     private void Start()
     {
-        transform.localPosition = spawnPoint.transform.position;//makes player spawn at spawn point. Currently not working
+        //transform.localPosition = spawnPoint.transform.position;//makes player spawn at spawn point. Currently not working
         controller = gameObject.GetComponent<CharacterController>();
 
         tempSpeed = playerSpeed;
@@ -127,8 +134,6 @@ public class PlayerController : MonoBehaviour
         healthBar.value = healthMax;
 
         camera_recoil = transform.Find("CameraRotation/CameraRecoil");
-        ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
-
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -222,6 +227,11 @@ public class PlayerController : MonoBehaviour
         reload = context.action.triggered;
         if (currentGun.GetComponent<Gun>().maxAmmo <= 0)
             return;
+        if(is_aiming && animate.GetBool("Aiming"))
+        {
+            animate.SetBool("Aiming", false);
+            is_aiming = false;
+        }
         if (reload)
         {
             if (currentGun.GetComponent<Gun>().getShotsFired() != 0)
@@ -292,15 +302,12 @@ public class PlayerController : MonoBehaviour
         {
             playerSpeed -= 5;
             animate.SetBool("Aiming", true);
+            animate.GetCurrentAnimatorClipInfo(0);
             //if (currentGun.GetComponent<Gun>().scope && animate.GetBool("Aiming"))//goes to scope just on click and does not leave
             //{
             //    animate.SetBool("Scoped", true);
             //    StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
             //}
-            if (reload)
-            {
-                Debug.Log("must exit");
-            }
         }
         if (context.canceled)
         {
@@ -404,11 +411,9 @@ public class PlayerController : MonoBehaviour
         //    //player.takeDamage(5f);
         //    Debug.Log(hit.transform.name);
         //}
-        Debug.Log(currentHealth);
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
-        updateHealth();
         if(is_sprinting)
             updateStamina();
         if (currentGun.GetComponent<Gun>().reloadingCheck() == false && !is_aiming)
@@ -434,10 +439,15 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
         checkIfCanPickup();
-        //if(transform.position.y<=killArea.y)
+        //if (currentHealth <= 0 )//does not work
         //{
-        //    currentHealth = 0;
-        //    //Debug.Log("DIE");
+        //    Debug.Log("Is Dead");
+        //    gameObject.transform.position = deathZone.position;
+        //    //isAlive = false;
+        //    Vector3 temp = gameObject.transform.position;
+            
+        //    //gameObject.GetComponent<DropAmmo>().getAmmoPickup().transform.position = temp;
+        //    //count++;
         //}
     }
 
@@ -500,8 +510,6 @@ public class PlayerController : MonoBehaviour
 
     public void updateStamina()
     {
-        //Debug.Log(currentStamina);
-
         if (is_sprinting)
         {
             if (currentStamina >= 0)
@@ -537,8 +545,10 @@ public class PlayerController : MonoBehaviour
 
     public void updateHealth()//Will detect if your current health is lower than your max health and start the RegenHealth Coroutine
     {
+        
         if (currentHealth < healthMax)
         {
+            healthBar.value = currentHealth;
             if (healthRegen != null)
             {
                 StopCoroutine(healthRegen);
@@ -556,10 +566,12 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RegenHealth()//Health Regen Coroutine
     {
+        
         yield return healthRegenWait;
 
         while (currentHealth < healthMax)
         {
+            Debug.Log("Went into regen health");
             currentHealth += healthMax / 100;
             healthBar.value = currentHealth;
             yield return regentick;
@@ -650,7 +662,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, pickupDistance))
         {
-            if (hit.transform.tag == "Gun")
+            if (hit.transform.tag == "Gun" && hit.transform.parent == null)
             {
                 Debug.Log("Can grab it");
                 //display controll to pick up
@@ -688,6 +700,18 @@ public class PlayerController : MonoBehaviour
         currentGun = null;
     }
 
+    public void updateKills()//make this specific to current player
+    {
+        kills++;
+        killText.text = "Kills: " + kills;
+    }
+
+    public void updateDeaths()//make this specific to current player
+    {
+        deaths++;
+        deathText.text = "Deaths: " + deaths;
+    }
+
     public bool getAiming()
     {
         return is_aiming;
@@ -705,15 +729,14 @@ public class PlayerController : MonoBehaviour
     public void resetHealth()
     {
         currentHealth = healthMax;
+        healthBar.value = currentHealth;
+        Debug.Log("Is Alive");
+        //Debug.Log("Health is " + currentHealth);
+    }
+    
+    public void resetCount()
+    {
+        count = 0;
     }
 
-    //public Ray getRay()
-    //{
-    //    return ray;
-    //}
-
-    //public RaycastHit getRaycastHit()
-    //{
-    //    return hit;
-    //}
 }

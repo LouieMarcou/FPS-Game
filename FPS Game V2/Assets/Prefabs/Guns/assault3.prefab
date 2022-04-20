@@ -87,7 +87,7 @@ MonoBehaviour:
   reloadTime: 1
   holsterTime: 1
   drawTime: 1
-  damage: 7
+  damage: 12
   range: 100
   fireRate: 10
   rapidFire: 0

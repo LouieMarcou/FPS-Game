@@ -25,11 +25,6 @@ public class SharedPool : MonoBehaviour
             tmp = Instantiate(objectToPool, hit.point, Quaternion.LookRotation(hit.normal));
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
-            //Debug.Log("yes");
-        }
-        if(objectToPool.tag == "AmmoPickup")
-        {
-            //give spawn locations
         }
         else
         {
@@ -64,6 +59,19 @@ public class SharedPool : MonoBehaviour
         bulletHole.SetActive(true);
     }
 
+    public void createBlood()
+    {
+        GameObject blood = GetPooledObject();
+        blood.transform.position = hit.point;
+        blood.transform.rotation = Quaternion.LookRotation(hit.normal);
+        blood.SetActive(true);
+    }
+
+    public void createAmmo()
+    {
+        GameObject ammo = GetPooledObject();
+        ammo.SetActive(true);
+    }
 
     public GameObject GetPooledObject()
     {
