@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
+    //Note: Player can accidently shoot and injure themseleves
     #region variables
     //Scripts
     [SerializeField] public PlayerController player;
@@ -45,7 +46,7 @@ public class Gun : MonoBehaviour
 
     public GameObject[] muzzelFlash;//array of muzzle flashes
     public GameObject muzzelFlashPool;//array of muzzle flashes
-    
+
     public Transform muzzelSpawn;//where the muzzle flash will appear
     private GameObject holdFlash;
     public GameObject bulletHole;
@@ -55,12 +56,15 @@ public class Gun : MonoBehaviour
 
     public AudioSource shoot_sound_source, reloadSound_source;//sounds
     public AudioSource hitMarker;
+
     #endregion
     private void Awake()
     {
         rapidFireWait = new WaitForSeconds(1 / fireRate);
         burstFireWait = new WaitForSeconds(1 / fireRate);//change this value to fix the burst fire problem?
         holsterWait = new WaitForSeconds(0.01f);
+        player = GetComponentInParent<PlayerController>();
+        Debug.Log(player);
 
     }
     // Start is called before the first frame update
@@ -79,21 +83,21 @@ public class Gun : MonoBehaviour
     void OnEnable()
     {
         isReloading = false;
-        if(animator!=null)
+        if (animator != null)
         {
             animator.SetBool("Reloading", false);
         }
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (pos!=null)
+        if (pos != null)
         {
             transform.localRotation = pos.localRotation;
         }
-        
+
     }
 
     public void Shoot(bool check)
@@ -112,10 +116,10 @@ public class Gun : MonoBehaviour
             StartCoroutine(Reload());
             return;
         }
-        if(check && Time.time>=nextTimeToFire)
+        if (check && Time.time >= nextTimeToFire)
         {
-           nextTimeToFire = Time.time + 1f / fireRate;
-           Firing(); 
+            nextTimeToFire = Time.time + 1f / fireRate;
+            Firing();
         }
     }
 
@@ -131,26 +135,31 @@ public class Gun : MonoBehaviour
         holdFlash.transform.position = muzzelSpawn.transform.position;
         holdFlash.transform.rotation = muzzelSpawn.transform.rotation * Quaternion.Euler(0, 0, 90);
         holdFlash.SetActive(true);
-        int layerMask = 1 << 8;
+        int layerMask = 1 << 10;
         if (shoot_sound_source)
             shoot_sound_source.Play();
-        if (Physics.Raycast(cam.transform.position,cam.transform.forward,out hit,range,layerMask))
-        {            
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, ~layerMask))
+        {
             PlayerController target = hit.transform.GetComponent<PlayerController>();
             SharedPool.SharedInstance.setRaycastHit(hit);
-            if(target != null)
+            if (target != null && target != player)
             {
 
                 target.takeDamage(damage);
 
                 //SharedPool.SharedInstance.createBlood();
                 //GameObject.Find("BloodEffectPool").GetComponent<SharedPool>().createBlood();
-                if(target.getCurrentHealth()<=0)
+                if (target.getCurrentHealth() <= 0)
                 {
                     Debug.Log("Player has died");
                     player.GetComponent<PlayerController>().updateKills();
+                    //player.GetComponent<PlayerController>().addKill();
                 }
-                
+
+            }
+            if(target == null)
+            {
+                GameObject.Find("BulletHoleObjectPool").GetComponent<SharedPool>().createBulletHole();
             }
             //else
             //{
@@ -160,13 +169,13 @@ public class Gun : MonoBehaviour
             //SharedPool.SharedInstance.setRaycastHit(hit);
             //
             //SharedPool.SharedInstance.createBulletHole();
-            //GameObject.Find("BulletHoleObjectPool").GetComponent<SharedPool>().createBulletHole();
+            
         }
     }
 
     public IEnumerator RapidFire()
     {
-        if(rapidFire)
+        if (rapidFire)
         {
             while (true)
             {
@@ -184,9 +193,9 @@ public class Gun : MonoBehaviour
     public IEnumerator BurstFire()//alter so that you have to wait for the burst to finish to fire again
     {
         int count = 0;
-        if(burstFire)
+        if (burstFire)
         {
-            while(count<3)
+            while (count < 3)
             {
                 Shoot(burstFire);
                 count++;
@@ -201,13 +210,13 @@ public class Gun : MonoBehaviour
     }
 
     IEnumerator Reload()
-    {    
+    {
         isReloading = true;
         animator.SetBool("Reloading", true);
         if (reloadSound_source)
             reloadSound_source.Play();
         yield return new WaitForSeconds(reloadTime);
-        
+
         if (shotsFired > maxAmmo)
         {
             shotsFired = maxAmmo;
@@ -239,7 +248,7 @@ public class Gun : MonoBehaviour
 
     public IEnumerator Draw(GameObject secondGun)
     {
-        while(hasHolstered)
+        while (hasHolstered)
         {
             //Debug.Log("waiting");
             yield return holsterWait;
@@ -253,7 +262,7 @@ public class Gun : MonoBehaviour
             yield return null;
         isDrawing = false;
         animator.SetBool("Draw", false);
-        
+
         isSwaping = false;
         //Debug.Log(isSwaping);
     }
@@ -308,7 +317,7 @@ public class Gun : MonoBehaviour
     {
         cam = camera;
     }
-    
+
     public int getShotsFired()
     {
         return shotsFired;

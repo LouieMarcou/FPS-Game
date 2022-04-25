@@ -75,10 +75,12 @@ MonoBehaviour:
   muzzelFlashPool: {fileID: 8665802372328306201, guid: c72924491cb0a7a4f8525bddc412f2bf, type: 3}
   muzzelSpawn: {fileID: 3546197158730014732}
   bulletHole: {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  impactEffect: {fileID: 4175629059630081179, guid: 09457b205a4f41640a7bd95719025463, type: 3}
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
+  gunLayerMask:
+    serializedVersion: 2
+    m_Bits: 1783
 --- !u!114 &4435359959888785261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioSourceHitMarker
       objectReference: {fileID: 0}
+    - target: {fileID: 3097022589990324942, guid: 948f54e273e8414439cdbbe4710c0875, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7006014548021150958, guid: 948f54e273e8414439cdbbe4710c0875, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -281,6 +287,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioSourceReload
       objectReference: {fileID: 0}
+    - target: {fileID: 4205835802323021676, guid: b05f3d878d7b8094e9b9afd5f1b38202, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5584641044809189940, guid: b05f3d878d7b8094e9b9afd5f1b38202, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -342,6 +352,10 @@ PrefabInstance:
     - target: {fileID: 8143236376366639444, guid: 6ac1f4276b4092242827d8df7b7cdb21, type: 3}
       propertyPath: m_Name
       value: AudioSourceShoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143236376366639444, guid: 6ac1f4276b4092242827d8df7b7cdb21, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8767974212390603193, guid: 6ac1f4276b4092242827d8df7b7cdb21, type: 3}
       propertyPath: m_RootOrder

@@ -33,7 +33,7 @@ public class Respawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canRespawn)
+        if (canRespawn)
         {
             Debug.Log("Respawning now");
             respawnPlayer();
@@ -41,14 +41,14 @@ public class Respawn : MonoBehaviour
         }
         if (timerIsRunning)
         {
-            if(currentTime>0)
+            if (currentTime > 0)
             {
                 displayTime();
                 currentTime -= Time.deltaTime;
-                
+
                 //Debug.Log(currentTime);
             }
-            if(currentTime<=0)
+            if (currentTime <= 0)
             {
                 //Debug.Log("Respawning now");
 
@@ -59,12 +59,12 @@ public class Respawn : MonoBehaviour
                 canRespawn = true;
             }
         }
-        else if(gameObject.GetComponent<PlayerController>().getCurrentHealth()<=0)//disable this???
+        else if (gameObject.GetComponent<PlayerController>().getAliveStatus() == false)//disable this???
         {
             gameObject.GetComponent<PlayerController>().updateDeaths();
             //ammoDropHere = DeathZone.transform.position;
             //ammoDropHere = gameObject.transform.position;
-            transform.position = DeathZone.position;
+            //transform.position = DeathZone.position;
             respawnTextObject.SetActive(true);
             timerIsRunning = true;
             displayTime();
@@ -74,7 +74,7 @@ public class Respawn : MonoBehaviour
     void displayTime()
     {
         seconds = Mathf.FloorToInt(currentTime % 60);
-        respawnTimeText.text = string.Format("{0:0}",seconds);
+        respawnTimeText.text = string.Format("{0:0}", seconds);
     }
 
     public Vector3 getAmmoDropPosition()
@@ -86,14 +86,19 @@ public class Respawn : MonoBehaviour
     {
         gameObject.GetComponent<PlayerController>().resetHealth();
         int index = (int)Random.Range(0.0f, spawnPointArray.Length);
-        Debug.Log(spawnPointArray[index].position + " is "+spawnPointArray[index].name, spawnPointArray[index]);
+        //Debug.Log(spawnPointArray[index].position + " is "+spawnPointArray[index].name, spawnPointArray[index]);
 
-        Debug.Log("Position before moved is " + transform.position,gameObject);
+        //gameObject.GetComponent<CharacterController>().enabled = false;
+
+        //Debug.Log("Position before moved is " + transform.position,gameObject);
+
         transform.position = spawnPointArray[index].position;
-        Debug.Log("moved player");
-        Debug.Log("Position after moved is " + transform.position,gameObject);
 
-        //gameObject.GetComponent<PlayerController>().resetCount();
-       
+        gameObject.GetComponent<CharacterController>().enabled = true;
+        gameObject.GetComponent<PlayerController>().makeAlive();
+        //Debug.Log("moved player");
+        //Debug.Log("Position after moved is " + transform.position,gameObject);
+        //gameObject.GetComponent<PlayerController>().makeAlive();
+
     }
 }

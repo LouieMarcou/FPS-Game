@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
 
     private int kills = 0;
     private int deaths = 0;
-    private int count = 0;
 
     private bool jumped = false;
     private bool fire = false;
@@ -93,6 +92,9 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     private bool isAlive = true;
 
+    float m_MySliderValue = 1.0f;
+
+
     Ray ray;
     RaycastHit hit;
     #endregion
@@ -104,6 +106,7 @@ public class PlayerController : MonoBehaviour
 
         tempSpeed = playerSpeed;
         gunClone = Instantiate(gun1, gunPosition.transform, false);
+        //gunClone.layer = 7;
         gunClone.transform.position = gunPosition.transform.position;
         gunClone.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone.GetComponent<Gun>().animator = animate;
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
         gunClone.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
 
         gunClone2 = Instantiate(gun2, gunPosition.transform, false);
+        //gunClone2.layer = 7;
         gunClone2.transform.position = gunPosition.transform.position;
         gunClone2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone2.GetComponent<Gun>().animator = animate;
@@ -124,7 +128,8 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Gun>().animator = animate;
 
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
-
+        killText.text = "Kills: ";
+        deathText.text = "Deaths: ";
         currentStamina = staminaMax;
         staminaBar.maxValue = staminaMax;
         staminaBar.value = staminaMax;
@@ -134,6 +139,8 @@ public class PlayerController : MonoBehaviour
         healthBar.value = healthMax;
 
         camera_recoil = transform.Find("CameraRotation/CameraRecoil");
+        kills = 0;
+        deaths = 0;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -142,7 +149,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-            
+
         movementInput = context.ReadValue<Vector2>();
         updateStamina();
     }
@@ -166,7 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             if (is_aiming || fire || reload || currentGun.GetComponent<Gun>().reloadingCheck() || movementInput == Vector2.zero)//not canceling function properly. will still drain if aiming
                 return;
-            
+
             is_sprinting = true;
             updateSprint();
         }
@@ -183,7 +190,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-            
+
         fire = context.ReadValueAsButton();
         fire = context.action.triggered;
         if (is_sprinting)
@@ -200,10 +207,10 @@ public class PlayerController : MonoBehaviour
                 StopFiring();
             }
         }
-        else if(currentGun.GetComponent<Gun>().burstFire)
+        else if (currentGun.GetComponent<Gun>().burstFire)
         {
             currentGun.GetComponent<Gun>().getCamera(cam);
-            if(context.performed || currentGun.GetComponent<Gun>().holsterCheck())
+            if (context.performed || currentGun.GetComponent<Gun>().holsterCheck())
             {
                 BurstFiring();
             }
@@ -227,7 +234,7 @@ public class PlayerController : MonoBehaviour
         reload = context.action.triggered;
         if (currentGun.GetComponent<Gun>().maxAmmo <= 0)
             return;
-        if(is_aiming && animate.GetBool("Aiming"))
+        if (is_aiming && animate.GetBool("Aiming"))
         {
             animate.SetBool("Aiming", false);
             is_aiming = false;
@@ -251,6 +258,11 @@ public class PlayerController : MonoBehaviour
         swapCheck = context.action.triggered;
         if (swapCheck)
         {
+            if (is_aiming)
+            {
+                animate.SetBool("Aiming", false);
+                is_aiming = false;
+            }
             StopFiring();
             if (gunClone.activeInHierarchy)
             {
@@ -318,7 +330,7 @@ public class PlayerController : MonoBehaviour
             //    gameObject.GetComponent<Scope>().OnUnscoped();
             //}
             animate.SetBool("Aiming", false);
-            
+
             is_aiming = false;
         }
     }
@@ -331,19 +343,19 @@ public class PlayerController : MonoBehaviour
         using_scope = context.action.triggered;
         if (is_sprinting)
             cancelSprint();
-        if(context.performed)
+        if (context.performed)
         {
             if (currentGun.GetComponent<Gun>().scope)//goes to scope just on click and does not leave
             {
-                animate.SetBool("Scoped", true);
+                //animate.SetBool("Scoped", true);
                 StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
             }
         }
-        if(context.canceled)
+        if (context.canceled)
         {
             if (currentGun.GetComponent<Gun>().scope)
             {
-                animate.SetBool("Scoped", false);
+                //animate.SetBool("Scoped", false);
                 gameObject.GetComponent<Scope>().OnUnscoped();
             }
         }
@@ -373,7 +385,7 @@ public class PlayerController : MonoBehaviour
     {
         is_paused = context.ReadValueAsButton();
         is_paused = context.action.triggered;
-        if(is_paused)
+        if (is_paused)
         {
             //look.SetActive(false);
             movementInput = pauseMovementInput;
@@ -388,33 +400,30 @@ public class PlayerController : MonoBehaviour
             gameObject.GetComponent<mouselook>().enabled = false;
             gameObject.GetComponent<PauseMenu>().checkIfPaused();
         }
-        
+
     }
 
     public void OnJoin(InputAction.CallbackContext context)
     {
         is_joining = context.ReadValueAsButton();
         is_joining = context.action.triggered;
-        if(is_joining)
+        if (is_joining)
         {
             Debug.Log("Joined?");
         }
-        
+
     }
 
     void Update()
     {
-        //ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
-        //if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
-        //{
-        //    //PlayerController player = hit.transform.GetComponent<PlayerController>();
-        //    //player.takeDamage(5f);
-        //    Debug.Log(hit.transform.name);
-        //}
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
-        camera_recoil.localRotation = currentGun.transform.localRotation;
-        if(is_sprinting)
+        camera_recoil.rotation = currentGun.transform.rotation;
+        if (movementInput.x == 0 && movementInput.y == 0)
+        {
+            cancelSprint();
+        }
+        if (is_sprinting)
             updateStamina();
         if (currentGun.GetComponent<Gun>().reloadingCheck() == false && !is_aiming)
         {
@@ -439,16 +448,8 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
         checkIfCanPickup();
-        //if (currentHealth <= 0 )//does not work
-        //{
-        //    Debug.Log("Is Dead");
-        //    gameObject.transform.position = deathZone.position;
-        //    //isAlive = false;
-        //    Vector3 temp = gameObject.transform.position;
-            
-        //    //gameObject.GetComponent<DropAmmo>().getAmmoPickup().transform.position = temp;
-        //    //count++;
-        //}
+        checkIfAlive();
+        //updateScore();
     }
 
     void OnCollisionEnter(Collision collision)//if you collied with something
@@ -481,7 +482,7 @@ public class PlayerController : MonoBehaviour
                 currentGun.GetComponent<Gun>().Load();
             }
         }
-        if(collision.gameObject.tag == "KillTag")
+        if (collision.gameObject.tag == "KillTag")
         {
             Debug.Log("IN ZONE");
             currentHealth = 0;
@@ -545,8 +546,8 @@ public class PlayerController : MonoBehaviour
 
     public void updateHealth()//Will detect if your current health is lower than your max health and start the RegenHealth Coroutine
     {
-        
-        if (currentHealth < healthMax)
+
+        if (currentHealth < healthMax && isAlive == true)
         {
             healthBar.value = currentHealth;
             if (healthRegen != null)
@@ -566,7 +567,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RegenHealth()//Health Regen Coroutine
     {
-        
+
         yield return healthRegenWait;
 
         while (currentHealth < healthMax)
@@ -619,7 +620,7 @@ public class PlayerController : MonoBehaviour
     {
         is_holstering = true;
         animate.SetBool("Holster", true);
-        
+
         yield return new WaitForSeconds(currentGun.GetComponent<Gun>().holsterTime);
 
         animate.SetBool("Holster", false);
@@ -636,7 +637,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator drawing(GameObject secondGun)
     {
-        while(is_holstering)
+        while (is_holstering)
         {
             yield return currentGun.GetComponent<Gun>().getHolsterWait();
         }
@@ -659,8 +660,9 @@ public class PlayerController : MonoBehaviour
 
     void checkIfCanPickup()//Will check if a gun is in distance to pick up
     {
+        int layerMask = 1 << 10;
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, pickupDistance))
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, pickupDistance, layerMask))
         {
             if (hit.transform.tag == "Gun" && hit.transform.parent == null)
             {
@@ -687,7 +689,7 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().isKinematic = true;
         //currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        currentGun.layer = 7;
+        //currentGun.layer = 7;
     }
 
     void dropGun()//Will current gun if a gun in front of you is detected
@@ -702,6 +704,7 @@ public class PlayerController : MonoBehaviour
 
     public void updateKills()//make this specific to current player
     {
+        Debug.Log(kills);
         kills++;
         killText.text = "Kills: " + kills;
     }
@@ -733,10 +736,46 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Is Alive");
         //Debug.Log("Health is " + currentHealth);
     }
-    
-    public void resetCount()
+
+    public void checkIfAlive()
     {
-        count = 0;
+        if (currentHealth <= 0)
+        {
+            //Debug.Log("Is Dead");
+            isAlive = false;
+            controller.enabled = false;
+            Vector3 temp = gameObject.transform.position;
+            //gameObject.GetComponent<DropAmmo>().getAmmoPickup().transform.position = temp;
+            gameObject.transform.position = deathZone.position;
+
+
+        }
     }
 
+    public void makeAlive()
+    {
+        isAlive = true;
+    }
+
+    public bool getAliveStatus()
+    {
+        return isAlive;
+    }
+
+    public void updateScore()
+    {
+        killText.text = "Kills: " + kills;
+    }
+
+    public void addKill()
+    {
+        kills++;
+    }
+
+    //void OnGUI()
+    //{
+    //    GUI.Label(new Rect(0, 25, 40, 60), "Speed");
+    //    m_MySliderValue = GUI.HorizontalSlider(new Rect(45, 25, 200, 60), m_MySliderValue, 0.0F, 1.0F);
+    //    animate.speed = m_MySliderValue;
+    //}
 }

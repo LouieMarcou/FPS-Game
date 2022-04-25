@@ -45,7 +45,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 1
   m_HasExitTime: 0
@@ -103,7 +103,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c07fb810e77f8b54096d5bdcbc737a14, type: 2}
+  m_Motion: {fileID: 7400000, guid: e543e72cead0c504eb153329b783debe, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -154,7 +154,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -182,7 +182,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.39999998
   m_HasExitTime: 0
@@ -353,7 +353,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -407,7 +407,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 802ce7c4d729c4d478312d6811c530d4, type: 2}
+  m_Motion: {fileID: 7400000, guid: d4c739da3b117e14abdf319a8cb0baf3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -444,7 +444,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunPosition
+  m_Name: GunPosition 1
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Reloading
@@ -520,7 +520,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 17b6d7dd001a3e74184f651f5971cfeb, type: 2}
+  m_Motion: {fileID: 7400000, guid: 629c309eb19cb514c8c2793722a8c0b1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -548,7 +548,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a53f7eee577a177408cc6fa65a816a50, type: 2}
+  m_Motion: {fileID: 7400000, guid: 833fdfc815d925d41aa99a25b07165e0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -579,7 +579,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e6b69357599725048aad6d4b6afd0fb4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5fc8a54a71005fe44ba2245acc53643c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -593,7 +593,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GunDraw
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6198498163448634954}
@@ -607,7 +607,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 711710e8157cdd14584762c60f9136a2, type: 2}
+  m_Motion: {fileID: 7400000, guid: b7eb3380a4b84ec4b891ef5a9844fc99, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -630,7 +630,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -659,7 +659,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 875f963c15cdfd84b9bf8ae02a2e602c, type: 2}
+  m_Motion: {fileID: 7400000, guid: ae1e87b1b116e1849b7d5d9ee50d2c63, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -682,7 +682,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.35
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -740,6 +740,6 @@ AnimatorStateTransition:
   m_ExitTime: 0.541807
   m_HasExitTime: 0
   m_HasFixedDuration: 0
-  m_InterruptionSource: 2
+  m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
