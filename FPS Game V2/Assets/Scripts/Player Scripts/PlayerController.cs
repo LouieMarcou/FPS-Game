@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         tempSpeed = playerSpeed;
         gunClone = Instantiate(gun1, gunPosition.transform, false);
-        //gunClone.layer = 7;
+        gunClone.layer = 7;
         gunClone.transform.position = gunPosition.transform.position;
         gunClone.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone.GetComponent<Gun>().animator = animate;
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         gunClone.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
 
         gunClone2 = Instantiate(gun2, gunPosition.transform, false);
-        //gunClone2.layer = 7;
+        gunClone2.layer = 7;
         gunClone2.transform.position = gunPosition.transform.position;
         gunClone2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone2.GetComponent<Gun>().animator = animate;
@@ -139,7 +139,13 @@ public class PlayerController : MonoBehaviour
         healthBar.value = healthMax;
 
         playerManager = GameObject.Find("Player Manager");
-        gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
+
+        if(gameObject.GetComponent<PlayerDetails>().playerID == 1)
+            gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
+        else if(gameObject.GetComponent<PlayerDetails>().playerID==2)
+        {
+            gunCam.GetComponent<Camera>().rect = new Rect(0.5f, 0f, 0.5f, 1.0f);
+        }
         //camera_recoil = transform.Find("CameraRotation/CameraRecoil");
         //Debug.Log(transform.Find("CameraRotation/CameraRecoil"));
         kills = 0;
@@ -427,6 +433,16 @@ public class PlayerController : MonoBehaviour
         //    gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
         //    Debug.Log(gunCam.GetComponent<Camera>().rect);
         //}
+        if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
+        {
+            Debug.Log("rect [prt change: " + cam.rect);
+            Debug.Log("gun cam" + gunCam + " " + gunCam.gameObject.name);
+            //gunCam.GetComponent<Camera>().rect = new Rect(0.5f, 0f, 0.5f, 1.0f);
+
+            gunCam.rect = cam.rect;
+            Debug.Log("guncam : " + gunCam.rect);
+        }
+        //Debug.Log(gameObject.GetComponent<PlayerDetails>().playerID);
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
