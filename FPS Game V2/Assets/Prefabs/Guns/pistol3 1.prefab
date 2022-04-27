@@ -78,9 +78,6 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
-  gunLayerMask:
-    serializedVersion: 2
-    m_Bits: 1783
 --- !u!114 &4435359959888785261
 MonoBehaviour:
   m_ObjectHideFlags: 0

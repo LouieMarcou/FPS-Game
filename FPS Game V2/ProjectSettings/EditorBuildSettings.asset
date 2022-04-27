@@ -20,8 +20,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: df780d5a5f7803b4eb769ce25802114e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Industrial Level 1.unity
+    guid: a6ff2c213e44ad54992ac87274983331
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: bbdffc8eeb17c2546ba3fe816f2e51e4, type: 2}

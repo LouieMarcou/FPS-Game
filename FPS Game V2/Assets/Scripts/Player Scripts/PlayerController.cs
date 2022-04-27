@@ -45,9 +45,10 @@ public class PlayerController : MonoBehaviour
     private GameObject gunClone2;
     private GameObject currentGun;
     private GameObject tempGun;
-
+    private GameObject playerManager;
 
     [SerializeField] public Camera cam;
+    [SerializeField] public Camera gunCam;
 
     private WaitForSeconds regentick = new WaitForSeconds(0.1f);
     private WaitForSeconds staminaRegenWait = new WaitForSeconds(2f);
@@ -100,8 +101,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //transform.localPosition = spawnPoint.transform.position;//makes player spawn at spawn point. Currently not working
         controller = gameObject.GetComponent<CharacterController>();
+        
 
         tempSpeed = playerSpeed;
         gunClone = Instantiate(gun1, gunPosition.transform, false);
@@ -137,6 +138,8 @@ public class PlayerController : MonoBehaviour
         healthBar.maxValue = healthMax;
         healthBar.value = healthMax;
 
+        playerManager = GameObject.Find("Player Manager");
+        gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
         //camera_recoil = transform.Find("CameraRotation/CameraRecoil");
         //Debug.Log(transform.Find("CameraRotation/CameraRecoil"));
         kills = 0;
@@ -416,6 +419,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //if(playerManager.GetComponent<PlayerSpawnManager>().getNumPlayers()==2)
+        //{
+        //    //Debug.Log("setting size of viewpoint");
+        //    //gunCam.GetComponent<Camera>().rect.Set(0f,0f,0.5f,1.0f);
+        //    Debug.Log(gunCam.GetComponent<Camera>().rect);
+        //    gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
+        //    Debug.Log(gunCam.GetComponent<Camera>().rect);
+        //}
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
         camera_recoil.localRotation = currentGun.transform.localRotation;
