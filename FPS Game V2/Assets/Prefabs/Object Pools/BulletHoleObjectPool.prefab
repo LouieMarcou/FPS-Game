@@ -44,30 +44,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pooledObjects:
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
-  - {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   objectToPool: {fileID: 179232, guid: b2ac1383a96f94a50b7ed458be173bbd, type: 3}
   amountToPool: 25
