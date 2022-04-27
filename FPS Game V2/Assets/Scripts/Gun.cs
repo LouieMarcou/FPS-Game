@@ -64,7 +64,7 @@ public class Gun : MonoBehaviour
         burstFireWait = new WaitForSeconds(1 / fireRate);//change this value to fix the burst fire problem?
         holsterWait = new WaitForSeconds(0.01f);
         player = GetComponentInParent<PlayerController>();
-        Debug.Log(player);
+        //Debug.Log(player);
 
     }
     // Start is called before the first frame update
@@ -77,7 +77,6 @@ public class Gun : MonoBehaviour
         reloadSound_source = transform.Find("AudioSourceReload").GetComponent<AudioSource>();
         hitMarker = transform.Find("AudioSourceHitMarker").GetComponent<AudioSource>();
         //animator = null;
-        //add variable to change the recoil of the camera???
     }
 
     void OnEnable()
@@ -126,6 +125,7 @@ public class Gun : MonoBehaviour
     public void Firing()
     {
         recoil_script.RecoilFire();//muzzle flash positon does not sync up with the recoil
+        
         currentAmmo--;
         shotsFired++;
         int random = Random.Range(0, 5);
@@ -161,14 +161,6 @@ public class Gun : MonoBehaviour
             {
                 GameObject.Find("BulletHoleObjectPool").GetComponent<SharedPool>().createBulletHole();
             }
-            //else
-            //{
-            //    SharedPool.SharedInstance.createBulletHole();
-
-            //}
-            //SharedPool.SharedInstance.setRaycastHit(hit);
-            //
-            //SharedPool.SharedInstance.createBulletHole();
             
         }
     }

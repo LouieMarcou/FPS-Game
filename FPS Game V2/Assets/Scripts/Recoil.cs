@@ -45,6 +45,7 @@ public class Recoil : MonoBehaviour
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
+        //Debug.Log(targetRotation + "  " + currentRotation);
     }
 
     public void RecoilFire()
@@ -60,6 +61,10 @@ public class Recoil : MonoBehaviour
         
     }
 
+    public void setTargetRotation(Quaternion target)
+    {
+        transform.rotation = target;
+    }
 
     public Vector3 getTargetRotation()
     {

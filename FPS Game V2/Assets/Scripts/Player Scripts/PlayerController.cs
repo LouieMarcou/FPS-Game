@@ -27,8 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform playerBody;
     public Transform gunPosition;
-    public Transform holsterPosition;
-    private Transform camera_recoil;
+    public Transform camera_recoil;
     public Transform deathZone;
     public Animator animate;
 
@@ -92,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     private bool isAlive = true;
 
-    float m_MySliderValue = 1.0f;
+    float m_MySliderValue = 1.0f;//for aniamtion speed testing
 
 
     Ray ray;
@@ -138,7 +137,8 @@ public class PlayerController : MonoBehaviour
         healthBar.maxValue = healthMax;
         healthBar.value = healthMax;
 
-        camera_recoil = transform.Find("CameraRotation/CameraRecoil");
+        //camera_recoil = transform.Find("CameraRotation/CameraRecoil");
+        //Debug.Log(transform.Find("CameraRotation/CameraRecoil"));
         kills = 0;
         deaths = 0;
     }
@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused() || is_aiming)
             return;
         is_sprinting = context.ReadValueAsButton();
         is_sprinting = context.action.triggered;
@@ -418,7 +418,8 @@ public class PlayerController : MonoBehaviour
     {
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
-        camera_recoil.rotation = currentGun.transform.rotation;
+        camera_recoil.localRotation = currentGun.transform.localRotation;
+        //Debug.Log(camera_recoil.rotation + "   " + currentGun.transform.rotation);
         if (movementInput.x == 0 && movementInput.y == 0)
         {
             cancelSprint();
@@ -666,7 +667,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Gun" && hit.transform.parent == null)
             {
-                Debug.Log("Can grab it");
+                //Debug.Log("Can grab it");
                 //display controll to pick up
                 canPickup = true;
                 tempGun = hit.transform.gameObject;
