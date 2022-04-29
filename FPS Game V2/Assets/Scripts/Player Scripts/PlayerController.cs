@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
     public Text deathText;
 
     public Transform playerBody;
-    public Transform gunPosition;
-    public Transform camera_recoil;
+    public GameObject gunPosition;
+    public GameObject camera_recoil;
     public Transform deathZone;
     public Animator animate;
 
@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
     float m_MySliderValue = 1.0f;//for aniamtion speed testing
 
+    private int layerMaskForGun;
 
     Ray ray;
     RaycastHit hit;
@@ -102,25 +103,47 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
-        
+        controller.enabled = false;
+        camera_recoil.GetComponent<Recoil>().setPlayer(gameObject.GetComponent<PlayerController>());
 
+        playerManager = GameObject.Find("Player Manager");
+        if (gameObject.GetComponent<PlayerDetails>().playerID == 1)
+        {
+            gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
+            layerMaskForGun = (1 << 7) | (1 << 5);
+            gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
+            cam.GetComponent<Camera>().cullingMask = ~layerMaskForGun;
+            layerMaskForGun = 7;
+        }
+
+        else if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
+        {
+            //Debug.Log(gameObject.GetComponent<PlayerDetails>().playerID);
+            gunCam.rect = cam.rect;
+            layerMaskForGun = (1 << 11) | (1 << 5);
+            gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
+            cam.GetComponent<Camera>().cullingMask = ~layerMaskForGun;
+            layerMaskForGun = 11;
+        }
         tempSpeed = playerSpeed;
+        gunPosition.layer = layerMaskForGun;
         gunClone = Instantiate(gun1, gunPosition.transform, false);
-        gunClone.layer = 7;
+        gunClone.layer = layerMaskForGun;
         gunClone.transform.position = gunPosition.transform.position;
         gunClone.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone.GetComponent<Gun>().animator = animate;
         gunClone.GetComponent<Gun>().getCamera(cam);
-        gunClone.GetComponent<Gun>().setPosition(gunPosition);
+        //gunClone.GetComponent<Gun>().setPosition(gunPosition);
         gunClone.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
 
+
         gunClone2 = Instantiate(gun2, gunPosition.transform, false);
-        gunClone2.layer = 7;
+        gunClone2.layer = layerMaskForGun;
         gunClone2.transform.position = gunPosition.transform.position;
         gunClone2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         gunClone2.GetComponent<Gun>().animator = animate;
         gunClone2.GetComponent<Gun>().getCamera(cam);
-        gunClone2.GetComponent<Gun>().setPosition(gunPosition);
+        //gunClone2.GetComponent<Gun>().setPosition(gunPosition);
         gunClone2.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
         gunClone2.SetActive(false);
 
@@ -138,18 +161,13 @@ public class PlayerController : MonoBehaviour
         healthBar.maxValue = healthMax;
         healthBar.value = healthMax;
 
-        playerManager = GameObject.Find("Player Manager");
-
-        if(gameObject.GetComponent<PlayerDetails>().playerID == 1)
-            gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
-        else if(gameObject.GetComponent<PlayerDetails>().playerID==2)
-        {
-            gunCam.GetComponent<Camera>().rect = new Rect(0.5f, 0f, 0.5f, 1.0f);
-        }
+        
         //camera_recoil = transform.Find("CameraRotation/CameraRecoil");
         //Debug.Log(transform.Find("CameraRotation/CameraRecoil"));
         kills = 0;
         deaths = 0;
+
+        controller.enabled = true;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -252,7 +270,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGun.GetComponent<Gun>().getShotsFired() != 0)
             {
-                playerSpeed -= 5;
+                playerSpeed /= 2;
                 currentGun.GetComponent<Gun>().Load();
                 cancelSprint();
             }
@@ -261,12 +279,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwap(InputAction.CallbackContext context)//deactivates current gun and activates the other
     {
+        
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
             return;
         swapCheck = context.ReadValueAsButton();
         swapCheck = context.action.triggered;
+        if (is_sprinting)
+            cancelSprint();
         if (swapCheck)
         {
+            //Debug.Log(gunClone + " " + gunClone2);
             if (is_aiming)
             {
                 animate.SetBool("Aiming", false);
@@ -275,16 +297,12 @@ public class PlayerController : MonoBehaviour
             StopFiring();
             if (gunClone.activeInHierarchy)
             {
-                //startSwapping(gunClone2);//ammo text does not update properly in time with the changing of guns
-                //gunClone.GetComponent<Gun>().moveToHolster(gunPosition,holsterPosition);
-                //startHolster(gunPosition, holsterPosition);
                 startHolster(gunClone);
                 startDraw(gunClone2);
                 currentGun = gunClone2;
             }
             else if (gunClone2.activeInHierarchy)
             {
-                //startSwapping(gunClone);
                 startHolster(gunClone2);
                 startDraw(gunClone);
                 currentGun = gunClone;
@@ -295,7 +313,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext context)//picks up new gun you are looking at and swaps the current gun with it
     {
-        //if gun is attached to a player then return
         if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
             return;
         pickupCheck = context.ReadValueAsButton();
@@ -303,7 +320,7 @@ public class PlayerController : MonoBehaviour
         //Had a weird instance where I dropped a gun and was not able to pick it back up
         if (canPickup)
         {
-            if (pickupCheck)//can't pick up new guns
+            if (pickupCheck)
             {
                 dropGun();
                 pickupGun();
@@ -324,20 +341,10 @@ public class PlayerController : MonoBehaviour
             playerSpeed -= 5;
             animate.SetBool("Aiming", true);
             animate.GetCurrentAnimatorClipInfo(0);
-            //if (currentGun.GetComponent<Gun>().scope && animate.GetBool("Aiming"))//goes to scope just on click and does not leave
-            //{
-            //    animate.SetBool("Scoped", true);
-            //    StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
-            //}
         }
         if (context.canceled)
         {
             resetPlayerSpeed();
-            //if (currentGun.GetComponent<Gun>().scope)
-            //{
-            //    animate.SetBool("Scoped", false);
-            //    gameObject.GetComponent<Scope>().OnUnscoped();
-            //}
             animate.SetBool("Aiming", false);
 
             is_aiming = false;
@@ -374,6 +381,8 @@ public class PlayerController : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         mouseInput = context.ReadValue<Vector2>();
+        if (is_aiming)
+            mouseInput /= 2;
     }
 
     public void MouseX(InputAction.CallbackContext context)
@@ -425,28 +434,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //if(playerManager.GetComponent<PlayerSpawnManager>().getNumPlayers()==2)
-        //{
-        //    //Debug.Log("setting size of viewpoint");
-        //    //gunCam.GetComponent<Camera>().rect.Set(0f,0f,0.5f,1.0f);
-        //    Debug.Log(gunCam.GetComponent<Camera>().rect);
-        //    gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
-        //    Debug.Log(gunCam.GetComponent<Camera>().rect);
-        //}
-        if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
-        {
-            Debug.Log("rect [prt change: " + cam.rect);
-            Debug.Log("gun cam" + gunCam + " " + gunCam.gameObject.name);
-            //gunCam.GetComponent<Camera>().rect = new Rect(0.5f, 0f, 0.5f, 1.0f);
-
-            gunCam.rect = cam.rect;
-            Debug.Log("guncam : " + gunCam.rect);
-        }
-        //Debug.Log(gameObject.GetComponent<PlayerDetails>().playerID);
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         currentGun.GetComponent<Gun>().animator = animate;
-        camera_recoil.localRotation = currentGun.transform.localRotation;
-        //Debug.Log(camera_recoil.rotation + "   " + currentGun.transform.rotation);
+
+        setCameraRecoil();
+
         if (movementInput.x == 0 && movementInput.y == 0)
         {
             cancelSprint();
@@ -477,7 +469,6 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
         checkIfCanPickup();
         checkIfAlive();
-        //updateScore();
     }
 
     void OnCollisionEnter(Collision collision)//if you collied with something
@@ -528,7 +519,7 @@ public class PlayerController : MonoBehaviour
         if (is_sprinting)
         {
             animate.SetBool("Sprinting", is_sprinting);
-            sprintSpeed = 10;
+            sprintSpeed = 5;
         }
         else if (is_sprinting == false)
         {
@@ -637,15 +628,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //void startHolster(Transform gunPosition, Transform holsterPosition)//Starts holster coroutine
-    //{
-    //    holsterCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().moveToHolster(gunPosition, holsterPosition));
-    //    //holsterCoroutine = StartCoroutine(holstering(secondGun));
-
-    //}
-
     IEnumerator holstering(GameObject secondGun)
     {
+        StopFiring();
         is_holstering = true;
         animate.SetBool("Holster", true);
 
@@ -665,6 +650,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator drawing(GameObject secondGun)
     {
+        StopFiring();
         while (is_holstering)
         {
             yield return currentGun.GetComponent<Gun>().getHolsterWait();
@@ -679,12 +665,6 @@ public class PlayerController : MonoBehaviour
         animate.SetBool("Draw", false);
         currentGun = secondGun;
     }
-
-    /*void startSwapping(GameObject secondGun)
-    {
-        weaponSwapCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Swapping(secondGun));
-
-    }*/
 
     void checkIfCanPickup()//Will check if a gun is in distance to pick up
     {
@@ -708,31 +688,52 @@ public class PlayerController : MonoBehaviour
 
     void pickupGun()//Will pick up gun and set it equal to current gun
     {
+        if(gun1 == null)
+        {
+            gun1 = tempGun;
+            gunClone = tempGun;
+        }
+        else if (gun2 == null)
+        {
+            gun2 = tempGun;
+            gunClone2 = tempGun;
+        }
         currentGun = tempGun;
-        currentGun.transform.position = gunPosition.position;
-        currentGun.transform.parent = gunPosition;
+        currentGun.transform.position = gunPosition.transform.position;
+        currentGun.transform.parent = gunPosition.transform;
         currentGun.GetComponent<Gun>().player = gameObject.GetComponent<PlayerController>();
         currentGun.GetComponent<Gun>().ammo = gameObject.GetComponent<PlayerController>().ammo;
         currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
         currentGun.GetComponent<Rigidbody>().isKinematic = true;
         //currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        //currentGun.layer = 7;
+        currentGun.layer = layerMaskForGun;
     }
 
     void dropGun()//Will current gun if a gun in front of you is detected
     {
         currentGun.transform.parent = null;
+        //Destroy(currentGun);
         currentGun.GetComponent<Rigidbody>().isKinematic = false;
         currentGun.GetComponent<Rigidbody>().useGravity = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         currentGun.layer = 10;
+        currentGun.GetComponent<Gun>().removePlayerScript();
+        currentGun.GetComponent<Recoil>().removePlayerScript();
+        if(currentGun == gunClone)
+        {
+            gun1 = null;
+        }
+        else if (currentGun == gunClone2)
+        {
+            gun2 = null;
+        }
         currentGun = null;
     }
 
     public void updateKills()//make this specific to current player
     {
-        Debug.Log(kills);
+        //Debug.Log(kills);
         kills++;
         killText.text = "Kills: " + kills;
     }
@@ -767,16 +768,14 @@ public class PlayerController : MonoBehaviour
 
     public void checkIfAlive()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && isAlive)
         {
             //Debug.Log("Is Dead");
             isAlive = false;
-            controller.enabled = false;
             Vector3 temp = gameObject.transform.position;
-            //gameObject.GetComponent<DropAmmo>().getAmmoPickup().transform.position = temp;
+            controller.enabled = false;
+            
             gameObject.transform.position = deathZone.position;
-
-
         }
     }
 
@@ -799,6 +798,24 @@ public class PlayerController : MonoBehaviour
     {
         kills++;
     }
+
+    public void setCameraRecoil()
+    {
+        camera_recoil.GetComponent<Recoil>().recoilX = currentGun.GetComponent<Recoil>().recoilX;
+        camera_recoil.GetComponent<Recoil>().recoilY = currentGun.GetComponent<Recoil>().recoilY;
+        camera_recoil.GetComponent<Recoil>().recoilZ = currentGun.GetComponent<Recoil>().recoilZ;
+
+        camera_recoil.GetComponent<Recoil>().aimRecoilX = currentGun.GetComponent<Recoil>().aimRecoilX;
+        camera_recoil.GetComponent<Recoil>().aimRecoilY = currentGun.GetComponent<Recoil>().aimRecoilY;
+        camera_recoil.GetComponent<Recoil>().aimRecoilZ = currentGun.GetComponent<Recoil>().aimRecoilZ;
+
+        camera_recoil.GetComponent<Recoil>().setTargetRotation(currentGun.GetComponent<Recoil>().getTargetRotation());
+        camera_recoil.GetComponent<Recoil>().setCurrentRotation(currentGun.GetComponent<Recoil>().getCurrentRotation());
+
+        camera_recoil.GetComponent<Recoil>().snappiness = currentGun.GetComponent<Recoil>().snappiness;
+        camera_recoil.GetComponent<Recoil>().returnSpeed = currentGun.GetComponent<Recoil>().returnSpeed;
+    }
+
 
     //void OnGUI()
     //{

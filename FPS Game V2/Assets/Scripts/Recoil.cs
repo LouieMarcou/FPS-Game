@@ -30,7 +30,10 @@ public class Recoil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //if(gameObject.tag != "Gun")
+        //{
+        //    Debug.Log(gameObject + " is not a gun");
+        //}
     }
 
     // Update is called once per frame
@@ -40,7 +43,8 @@ public class Recoil : MonoBehaviour
         {
             isAiming = player.GetComponent<PlayerController>().getAiming();
         }
-        
+        //Debug.Log(recoilX);
+        //Debug.Log(gameObject,gameObject);
 
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);
@@ -61,13 +65,33 @@ public class Recoil : MonoBehaviour
         
     }
 
-    public void setTargetRotation(Quaternion target)
+    public void setPlayer(PlayerController newPlayer)
     {
-        transform.rotation = target;
+        player = newPlayer;
+    }
+
+    public void setTargetRotation(Vector3 target)
+    {
+        targetRotation = target;
     }
 
     public Vector3 getTargetRotation()
     {
         return targetRotation;
+    }
+
+    public void setCurrentRotation(Vector3 target)
+    {
+        currentRotation = target;
+    }
+
+    public Vector3 getCurrentRotation()
+    {
+        return currentRotation;
+    }
+
+    public void removePlayerScript()
+    {
+        player = null;
     }
 }

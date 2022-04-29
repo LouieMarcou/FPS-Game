@@ -14,15 +14,15 @@ public class DropAmmo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.GetComponent<PlayerController>().getCurrentHealth() > 0)
-        {
-            drop = 0;
-        }
-        if(gameObject.GetComponent<PlayerController>().getCurrentHealth()<=0 && drop==0)
-        {
-            drop = 1;
-            //dropAmmo();
-        }
+        //if(gameObject.GetComponent<PlayerController>().getCurrentHealth() > 0)
+        //{
+        //    drop = 0;
+        //}
+        //if(gameObject.GetComponent<PlayerController>().getCurrentHealth()<=0 && drop==0)
+        //{
+        //    drop = 1;
+        //    dropAmmo();
+        //}
     }
 
     public void dropAmmo()

@@ -92,11 +92,11 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pos != null)
-        {
-            transform.localRotation = pos.localRotation;
-        }
-
+        //if (pos != null)
+        //{
+        //    transform.localRotation = pos.localRotation;
+        //}
+        //Debug.Log(transform.localRotation);
     }
 
     public void Shoot(bool check)
@@ -129,13 +129,13 @@ public class Gun : MonoBehaviour
         currentAmmo--;
         shotsFired++;
         int random = Random.Range(0, 5);
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//recoil not changing raycast?
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        holdFlash = muzzelFlashPool.GetComponent<NewObjectPool>().releaseRandom(); //Object Pool atempt
+        holdFlash = muzzelFlashPool.GetComponent<NewObjectPool>().releaseRandom(); //Object Pool attempt
         holdFlash.transform.position = muzzelSpawn.transform.position;
         holdFlash.transform.rotation = muzzelSpawn.transform.rotation * Quaternion.Euler(0, 0, 90);
         holdFlash.SetActive(true);
-        int layerMask = 1 << 10;
+        int layerMask = 1 << 7;
         if (shoot_sound_source)
             shoot_sound_source.Play();
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, ~layerMask))
@@ -153,7 +153,6 @@ public class Gun : MonoBehaviour
                 {
                     Debug.Log("Player has died");
                     player.GetComponent<PlayerController>().updateKills();
-                    //player.GetComponent<PlayerController>().addKill();
                 }
 
             }
@@ -343,6 +342,11 @@ public class Gun : MonoBehaviour
     public WaitForSeconds getHolsterWait()
     {
         return holsterWait;
+    }
+
+    public void removePlayerScript()
+    {
+        player = null;
     }
 
 }
