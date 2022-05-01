@@ -40,13 +40,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4909093202646032194}
   - component: {fileID: 4875748301678131371}
+  - component: {fileID: -7859422632037113492}
   - component: {fileID: 3866385463557021777}
   - component: {fileID: 6950939905227457276}
   - component: {fileID: 3465596538112416263}
   - component: {fileID: 8326946629434167527}
   - component: {fileID: 6083156513782735917}
   m_Layer: 10
-  m_Name: assault4
+  m_Name: FullAuto
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,8 +89,8 @@ MonoBehaviour:
   magazineSize: 25
   maxAmmo: 50
   reloadTime: 1
-  holsterTime: 1
-  drawTime: 1
+  holsterTime: 1.2
+  drawTime: 1.2
   damage: 10
   range: 100
   fireRate: 10
@@ -108,6 +109,19 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
+--- !u!114 &-7859422632037113492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722750140715894264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remaining: 30
 --- !u!114 &3866385463557021777
 MonoBehaviour:
   m_ObjectHideFlags: 0

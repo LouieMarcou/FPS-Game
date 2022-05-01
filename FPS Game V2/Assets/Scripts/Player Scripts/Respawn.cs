@@ -85,6 +85,8 @@ public class Respawn : MonoBehaviour
     public void respawnPlayer()
     {
         gameObject.GetComponent<PlayerController>().resetHealth();
+        gameObject.GetComponent<PlayerController>().clone1().GetComponent<Gun>().resetAmmo();
+        gameObject.GetComponent<PlayerController>().clone2().GetComponent<Gun>().resetAmmo();
         int index = (int)Random.Range(0.0f, spawnPointArray.Length);
         //Debug.Log(spawnPointArray[index].position + " is "+spawnPointArray[index].name, spawnPointArray[index]);
 

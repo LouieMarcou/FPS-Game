@@ -20,6 +20,7 @@ public class Gun : MonoBehaviour
     public int maxAmmo;//ammo on the right
     private int totalMaxAmmo;// currentAmmo + maxAmmo
     private int currentAmmo;//ammo on the left
+    private int originalMax;
 
     public float reloadTime;
     //public float swapTime;
@@ -37,6 +38,7 @@ public class Gun : MonoBehaviour
     [SerializeField] public bool scope = false;
     private bool hasHolstered = false;
     private bool isDrawing = false;
+    private bool isEquiped = false;
 
     private Camera cam;
     private WaitForSeconds rapidFireWait;
@@ -64,14 +66,15 @@ public class Gun : MonoBehaviour
         burstFireWait = new WaitForSeconds(1 / fireRate);//change this value to fix the burst fire problem?
         holsterWait = new WaitForSeconds(0.01f);
         player = GetComponentInParent<PlayerController>();
+        currentAmmo = magazineSize;
+        totalMaxAmmo = maxAmmo;
+        originalMax = maxAmmo;
         //Debug.Log(player);
 
     }
     // Start is called before the first frame update
     void Start()
     {
-        currentAmmo = magazineSize;
-        totalMaxAmmo = maxAmmo;
         recoil_script = gameObject.GetComponent<Recoil>();
         shoot_sound_source = transform.Find("AudioSourceShoot").GetComponent<AudioSource>();
         reloadSound_source = transform.Find("AudioSourceReload").GetComponent<AudioSource>();
@@ -135,7 +138,7 @@ public class Gun : MonoBehaviour
         holdFlash.transform.position = muzzelSpawn.transform.position;
         holdFlash.transform.rotation = muzzelSpawn.transform.rotation * Quaternion.Euler(0, 0, 90);
         holdFlash.SetActive(true);
-        int layerMask = 1 << 7;
+        int layerMask = (1 << 7) | (1 << 11);
         if (shoot_sound_source)
             shoot_sound_source.Play();
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range, ~layerMask))
@@ -226,6 +229,7 @@ public class Gun : MonoBehaviour
         isSwaping = true;
         hasHolstered = true;
         animator.SetBool("Holster", true);
+        //animator.Play("GunHolster 1", 0, 0);
         //Debug.Log("Swapping weapons");
         //Debug.Log(isSwaping);
 
@@ -241,19 +245,29 @@ public class Gun : MonoBehaviour
     {
         while (hasHolstered)
         {
-            //Debug.Log("waiting");
+           // Debug.Log("waiting");
             yield return holsterWait;
         }
         isDrawing = true;
         secondGun.SetActive(true);
-        animator.SetBool("Draw", true);
+        float temp = secondGun.GetComponent<Gun>().drawTime/2;
+        animator.SetFloat("DrawSpeed", temp);
 
-        yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
+        animator.SetBool("Draw", true);
+        //animator.Play("GunDraw", 0, 0);
+        Debug.Log(temp);
+        yield return new WaitForSeconds(temp);
+
+        //if (secondGun.GetComponent<Gun>().drawTime >= 1.0f)
+        //    yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
+        //else if (secondGun.GetComponent<Gun>().drawTime <= 0.5f)
+        //    yield return new WaitForSeconds(secondGun.GetComponent<Gun>().drawTime);
+
         if (player.GetComponent<PlayerController>().getAiming())
             yield return null;
         isDrawing = false;
         animator.SetBool("Draw", false);
-
+        //Debug.Log("Done");
         isSwaping = false;
         //Debug.Log(isSwaping);
     }
@@ -281,18 +295,11 @@ public class Gun : MonoBehaviour
         StartCoroutine(Reload());
     }
 
-    //public IEnumerator moveToHolster(Transform currentPosition, Transform targetPosition)
-    //{
-    //    float elapsedTime = 0f;
-    //    while(elapsedTime<holsterTime)
-    //    {
-
-    //        transform.position = Vector3.Lerp(currentPosition.position, targetPosition.position, elapsedTime/holsterTime);
-    //        elapsedTime += Time.deltaTime;
-    //    }
-    //    transform.position = targetPosition.position;
-    //}
-
+    public void resetAmmo()
+    {
+        currentAmmo = magazineSize;
+        maxAmmo = originalMax;
+    }
 
     public void setPosition(Transform position)
     {
@@ -347,6 +354,16 @@ public class Gun : MonoBehaviour
     public void removePlayerScript()
     {
         player = null;
+    }
+
+    public void equip()
+    {
+        isEquiped = true;
+    }
+
+    public void unequip()
+    {
+        isEquiped = false;
     }
 
 }
