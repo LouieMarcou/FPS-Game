@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Camera gunCam;
 
     private WaitForSeconds regentick = new WaitForSeconds(0.1f);
-    private WaitForSeconds staminaRegentick = new WaitForSeconds(0.05f);
     private WaitForSeconds staminaRegenWait = new WaitForSeconds(2f);
     private WaitForSeconds healthRegenWait = new WaitForSeconds(7f);
     //private WaitForSeconds holsterWait = new WaitForSeconds(1f);
@@ -76,7 +75,6 @@ public class PlayerController : MonoBehaviour
 
     private int kills = 0;
     private int deaths = 0;
-    private int equipGunsAmount = 1;
 
     private bool jumped = false;
     private bool fire = false;
@@ -98,27 +96,17 @@ public class PlayerController : MonoBehaviour
 
     private int layerMaskForGun;
 
-    private GameObject pickupObject;
-    private Transform pickupTransform;
-
     Ray ray;
     RaycastHit hit;
     #endregion
 
-    void Awake()
+    private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
         controller.enabled = false;
-    }
-
-    private void Start()
-    {
-        
         camera_recoil.GetComponent<Recoil>().setPlayer(gameObject.GetComponent<PlayerController>());
-        pickupTransform = gameObject.transform.Find("PlayerCanvas/PickupText");
-        pickupObject = pickupTransform.gameObject;
-        playerManager = GameObject.Find("Player Manager");
 
+        playerManager = GameObject.Find("Player Manager");
         if (gameObject.GetComponent<PlayerDetails>().playerID == 1)
         {
             gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
@@ -147,18 +135,17 @@ public class PlayerController : MonoBehaviour
         gunClone.GetComponent<Gun>().getCamera(cam);
         //gunClone.GetComponent<Gun>().setPosition(gunPosition);
         gunClone.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        gunClone.GetComponent<Gun>().equip();
 
-        //gunClone2 = Instantiate(gun2, gunPosition.transform, false);
-        //gunClone2.layer = layerMaskForGun;
-        //gunClone2.transform.position = gunPosition.transform.position;
-        //gunClone2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        //gunClone2.GetComponent<Gun>().animator = animate;
-        //gunClone2.GetComponent<Gun>().getCamera(cam);
-        ////gunClone2.GetComponent<Gun>().setPosition(gunPosition);
-        //gunClone2.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        //gunClone2.GetComponent<Gun>().equip();
-        //gunClone2.SetActive(false);
+
+        gunClone2 = Instantiate(gun2, gunPosition.transform, false);
+        gunClone2.layer = layerMaskForGun;
+        gunClone2.transform.position = gunPosition.transform.position;
+        gunClone2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        gunClone2.GetComponent<Gun>().animator = animate;
+        gunClone2.GetComponent<Gun>().getCamera(cam);
+        //gunClone2.GetComponent<Gun>().setPosition(gunPosition);
+        gunClone2.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
+        gunClone2.SetActive(false);
 
         currentGun = gunClone;
         currentGun.GetComponent<Gun>().animator = animate;
@@ -292,13 +279,14 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwap(InputAction.CallbackContext context)//deactivates current gun and activates the other
     {
-        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused() || equipGunsAmount == 1)
+        
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
             return;
         swapCheck = context.ReadValueAsButton();
         swapCheck = context.action.triggered;
         if (is_sprinting)
             cancelSprint();
-        if (swapCheck && equipGunsAmount == 2)
+        if (swapCheck)
         {
             //Debug.Log(gunClone + " " + gunClone2);
             if (is_aiming)
@@ -332,11 +320,7 @@ public class PlayerController : MonoBehaviour
         //Had a weird instance where I dropped a gun and was not able to pick it back up
         if (canPickup)
         {
-            if(pickupCheck && equipGunsAmount == 1)
-            {
-                pickupGun();
-            }
-            else if (pickupCheck)
+            if (pickupCheck)
             {
                 dropGun();
                 pickupGun();
@@ -346,7 +330,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused() || swapCheck)
+        if (gameObject.GetComponent<PauseMenu>().getGameIsPaused())
             return;
         is_aiming = context.ReadValueAsButton();
         is_aiming = context.action.triggered;
@@ -354,7 +338,7 @@ public class PlayerController : MonoBehaviour
             cancelSprint();
         if (context.performed)
         {
-            playerSpeed /= 2;
+            playerSpeed -= 5;
             animate.SetBool("Aiming", true);
             animate.GetCurrentAnimatorClipInfo(0);
         }
@@ -574,7 +558,7 @@ public class PlayerController : MonoBehaviour
         {
             currentStamina += staminaMax / 100;
             staminaBar.value = currentStamina;
-            yield return staminaRegentick;
+            yield return regentick;
         }
         staminaRegen = null;
     }
@@ -690,41 +674,21 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Gun" && hit.transform.parent == null)
             {
-                pickupObject.SetActive(true);
+                //Debug.Log("Can grab it");
+                //display controll to pick up
                 canPickup = true;
                 tempGun = hit.transform.gameObject;
-            }
-            else if(hit.transform.tag != "Gun")
-            {
-                pickupObject.SetActive(false);
             }
             else
             {
                 canPickup = false;
-                
             }
         }
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit))
-        {
-            if (hit.transform.tag != "Gun")
-            {
-                pickupObject.SetActive(false);
-            }
-        }
-
     }
 
-    void pickupGun()//Will pick up gun and set it equal to current gun or you second gun if you have no second gun
+    void pickupGun()//Will pick up gun and set it equal to current gun
     {
-        if(equipGunsAmount == 1)
-        {
-            gun2 = gun1;
-            gunClone2 = gunClone;
-            gun1 = tempGun;
-            gunClone = tempGun;
-            equipGunsAmount++;
-        }
-        else if(gun1 == null)
+        if(gun1 == null)
         {
             gun1 = tempGun;
             gunClone = tempGun;
@@ -743,13 +707,13 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().isKinematic = true;
         //currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
-        currentGun.GetComponent<GunReset>().hasBeenPickedUp();
         currentGun.layer = layerMaskForGun;
     }
 
     void dropGun()//Will current gun if a gun in front of you is detected
     {
         currentGun.transform.parent = null;
+        //Destroy(currentGun);
         currentGun.GetComponent<Rigidbody>().isKinematic = false;
         currentGun.GetComponent<Rigidbody>().useGravity = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -764,7 +728,6 @@ public class PlayerController : MonoBehaviour
         {
             gun2 = null;
         }
-        currentGun.GetComponent<GunReset>().hasBeenDropped();
         currentGun = null;
     }
 
@@ -795,7 +758,6 @@ public class PlayerController : MonoBehaviour
     {
         return currentHealth;
     }
-
     public void resetHealth()
     {
         currentHealth = healthMax;
@@ -808,6 +770,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentHealth <= 0 && isAlive)
         {
+            //Debug.Log("Is Dead");
             isAlive = false;
             Vector3 temp = gameObject.transform.position;
             controller.enabled = false;
@@ -853,15 +816,7 @@ public class PlayerController : MonoBehaviour
         camera_recoil.GetComponent<Recoil>().returnSpeed = currentGun.GetComponent<Recoil>().returnSpeed;
     }
 
-    public GameObject clone1()
-    {
-        return gunClone;
-    }
 
-    public GameObject clone2()
-    {
-        return gunClone2;
-    }
     //void OnGUI()
     //{
     //    GUI.Label(new Rect(0, 25, 40, 60), "Speed");

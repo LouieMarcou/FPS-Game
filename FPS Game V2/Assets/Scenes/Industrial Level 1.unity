@@ -1000,11 +1000,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bc05fffd7ae0474cba94d39d9d139a3, type: 3}
---- !u!4 &31697737 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6506743825863785216, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
-  m_PrefabInstance: {fileID: 1762823707}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &32960618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1237,7 +1232,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58952832}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1245,8 +1240,8 @@ Transform:
   - {fileID: 2052968118}
   - {fileID: 1807165844}
   - {fileID: 1147234104}
-  m_Father: {fileID: 801122987}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &60600549
 PrefabInstance:
@@ -1717,6 +1712,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36667f34d4b750c4695e409fb89b51f8, type: 3}
+--- !u!1 &93564800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 93564801}
+  m_Layer: 0
+  m_Name: AmmoCratesSpawnPoitns
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &93564801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93564800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94669156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 153058, guid: 1c453909ed30f7b4aa7b5b9cc050f7c5, type: 3}
@@ -8304,7 +8329,7 @@ GameObject:
   m_Layer: 0
   m_Name: CrateLocation1
   m_TagString: Untagged
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8315,8 +8340,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642028707}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.4176979, y: 2.7037423, z: -11.011029}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.91, y: 0, z: -13.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1911148121}
@@ -9804,6 +9829,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012097295612, guid: 4944c29dadd7e02468c053eafe48e485, type: 3}
   m_PrefabInstance: {fileID: 1221628764}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &801122985
 GameObject:
   m_ObjectHideFlags: 0
@@ -9860,6 +9886,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of ceb6e1a (working on spawnpoints)
 --- !u!1 &809641565
 GameObject:
   m_ObjectHideFlags: 0
@@ -12365,6 +12393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfec00be6c7c5b944991547485554901, type: 3}
+<<<<<<< HEAD
 --- !u!1 &984394380
 GameObject:
   m_ObjectHideFlags: 0
@@ -12397,6 +12426,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of ceb6e1a (working on spawnpoints)
 --- !u!1001 &988679851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12938,7 +12969,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1865752912087240696, guid: 4c069721fd10fc745814250cc965699a, type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 6
+=======
+      value: 10
+>>>>>>> parent of ceb6e1a (working on spawnpoints)
       objectReference: {fileID: 0}
     - target: {fileID: 1865752912087240696, guid: 4c069721fd10fc745814250cc965699a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14151,7 +14186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1147234104}
   m_Layer: 0
-  m_Name: Gun Spawn Location 4
+  m_Name: Location 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18805,7 +18840,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7571417777933101648, guid: e3c82751278329e41b039d69b7307864, type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 8
+=======
+      value: 12
+>>>>>>> parent of ceb6e1a (working on spawnpoints)
       objectReference: {fileID: 0}
     - target: {fileID: 7571417777933101648, guid: e3c82751278329e41b039d69b7307864, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19356,7 +19395,11 @@ Transform:
   - {fileID: 865804658}
   - {fileID: 1481515987}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 12
+=======
+  m_RootOrder: 14
+>>>>>>> parent of ceb6e1a (working on spawnpoints)
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1519294871
 PrefabInstance:
@@ -21575,9 +21618,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1709512895}
   m_Layer: 0
-  m_Name: Gun Spawn Location 1
+  m_Name: Location 1
   m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -21589,7 +21632,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709512894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.1, y: 3.196, z: 7.21}
+  m_LocalPosition: {x: 7.654, y: 3.159, z: 7.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 58952833}
@@ -22361,27 +22404,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 984394381}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 31697736, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
-      propertyPath: amountToPool
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 31697736, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
-      propertyPath: objectToPool
-      value: 
-      objectReference: {fileID: 7837183208759169361, guid: d117fa9df5f61db47b4adc202298d65b, type: 3}
-    - target: {fileID: 31697736, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
-      propertyPath: spawnPoints.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 31697736, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
-      propertyPath: spawnPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 642028707}
     - target: {fileID: 6506743825863785216, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6506743825863785216, guid: a61f721270257bc42b1ffbed5e574a03, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23211,7 +23238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1807165844}
   m_Layer: 0
-  m_Name: Gun Spawn Location 3
+  m_Name: Location 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24581,8 +24608,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 642028708}
-  m_Father: {fileID: 984394381}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1916485277
 Mesh:
@@ -27485,7 +27512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2052968118}
   m_Layer: 0
-  m_Name: Gun Spawn Location 2
+  m_Name: Location 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

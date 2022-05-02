@@ -40,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5783576511943355979}
   - component: {fileID: 6325830472707361190}
-  - component: {fileID: -5847000547134426898}
   - component: {fileID: 4707567996766429318}
   - component: {fileID: -74604084564539565}
   - component: {fileID: 1347942973719531982}
@@ -109,19 +108,6 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
---- !u!114 &-5847000547134426898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559691445800629489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  remaining: 30
 --- !u!114 &4707567996766429318
 MonoBehaviour:
   m_ObjectHideFlags: 0

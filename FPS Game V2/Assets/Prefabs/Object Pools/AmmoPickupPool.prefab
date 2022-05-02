@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6506743825863785216}
-  - component: {fileID: 31697736}
+  - component: {fileID: 6506743825863785247}
   m_Layer: 0
   m_Name: AmmoPickupPool
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &31697736
+--- !u!114 &6506743825863785247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +40,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6506743825863785217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd5e3cb8151f23a4eb2c2bb3be88052b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9cbbc2e475ef2429d6e620f8f5fe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObjects: []
+  pooledObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   objectToPool: {fileID: 7837183208759169361, guid: d117fa9df5f61db47b4adc202298d65b, type: 3}
-  spawnPoints: []
-  amountToPool: 0
+  amountToPool: 5

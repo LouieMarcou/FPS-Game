@@ -6,11 +6,9 @@ public class PlayerDetails : MonoBehaviour
 {
     public int playerID;
     public Vector3 startPos;
-    public Quaternion startRot;
     // Start is called before the first frame update
     void Start()
     {
         transform.position = startPos;
-        transform.rotation = startRot;
     }
 }

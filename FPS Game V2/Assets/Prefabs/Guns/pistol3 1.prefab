@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3546197156843256878}
   - component: {fileID: 2004708042606664856}
-  - component: {fileID: 6399984237830869197}
   - component: {fileID: 4435359959888785261}
   - component: {fileID: 1475029525695263537}
   - component: {fileID: 6928533280778035200}
@@ -59,8 +58,8 @@ MonoBehaviour:
   magazineSize: 10
   maxAmmo: 30
   reloadTime: 1
-  holsterTime: 1
-  drawTime: 1
+  holsterTime: 0.5
+  drawTime: 0.5
   damage: 15
   range: 50
   fireRate: 15
@@ -79,19 +78,6 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
---- !u!114 &6399984237830869197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6725262896714374645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  remaining: 30
 --- !u!114 &4435359959888785261
 MonoBehaviour:
   m_ObjectHideFlags: 0
