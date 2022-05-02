@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3546197156843256878}
   - component: {fileID: 2004708042606664856}
+  - component: {fileID: -1567169702740133675}
   - component: {fileID: 4435359959888785261}
   - component: {fileID: 1475029525695263537}
   - component: {fileID: 6928533280778035200}
   - component: {fileID: 5466627540149036872}
   - component: {fileID: 3794637348410491123}
   m_Layer: 10
-  m_Name: pistol3 1
+  m_Name: pistol
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c9e2a687597f0408efdb09ced6a129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 8510763742572833779, guid: bd965f543ca9a314ca035f0e3fe8d537, type: 3}
+  player: {fileID: 0}
   ammo: {fileID: 4798339322894202204, guid: c5535dc8a712709448faabee18a7f2a5, type: 3}
   animator: {fileID: 0}
   magazineSize: 10
@@ -66,6 +67,8 @@ MonoBehaviour:
   rapidFire: 0
   burstFire: 0
   scope: 0
+  isEquiped: 0
+  isPickup: 0
   muzzelFlash:
   - {fileID: 199458, guid: 51b76f616384d4946bed4ecc9a6c2c3e, type: 3}
   - {fileID: 199458, guid: 487eef9aff9d0f543836d5af5ab26430, type: 3}
@@ -78,6 +81,19 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
+--- !u!114 &-1567169702740133675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725262896714374645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remaining: 30
 --- !u!114 &4435359959888785261
 MonoBehaviour:
   m_ObjectHideFlags: 0

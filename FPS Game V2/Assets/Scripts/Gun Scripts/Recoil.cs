@@ -18,7 +18,7 @@ public class Recoil : MonoBehaviour
     [SerializeField] public float recoilX;
     [SerializeField] public float recoilY;
     [SerializeField] public float recoilZ;
-    
+
     //ADS Recoil
     [SerializeField] public float aimRecoilX;
     [SerializeField] public float aimRecoilY;
@@ -30,17 +30,21 @@ public class Recoil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //if(gameObject.tag != "Gun")
+        //{
+        //    Debug.Log(gameObject + " is not a gun");
+        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!player==null)
+        if (player != null)
         {
             isAiming = player.GetComponent<PlayerController>().getAiming();
         }
-        
+        //Debug.Log(recoilX);
+        //Debug.Log(gameObject,gameObject);
 
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);
@@ -50,7 +54,7 @@ public class Recoil : MonoBehaviour
 
     public void RecoilFire()
     {
-        if(isAiming)
+        if (isAiming)
         {
             targetRotation += new Vector3(aimRecoilX, Random.Range(-aimRecoilY, aimRecoilY), Random.Range(-aimRecoilZ, aimRecoilZ));
         }
@@ -58,16 +62,36 @@ public class Recoil : MonoBehaviour
         {
             targetRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
         }
-        
+
     }
 
-    public void setTargetRotation(Quaternion target)
+    public void setPlayer(PlayerController newPlayer)
     {
-        transform.rotation = target;
+        player = newPlayer;
+    }
+
+    public void setTargetRotation(Vector3 target)
+    {
+        targetRotation = target;
     }
 
     public Vector3 getTargetRotation()
     {
         return targetRotation;
+    }
+
+    public void setCurrentRotation(Vector3 target)
+    {
+        currentRotation = target;
+    }
+
+    public Vector3 getCurrentRotation()
+    {
+        return currentRotation;
+    }
+
+    public void removePlayerScript()
+    {
+        player = null;
     }
 }

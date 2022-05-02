@@ -45,8 +45,9 @@ GameObject:
   - component: {fileID: 3465596538112416263}
   - component: {fileID: 8326946629434167527}
   - component: {fileID: 6083156513782735917}
+  - component: {fileID: -4766801237684556378}
   m_Layer: 10
-  m_Name: assault4
+  m_Name: FullAuto
   m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +97,8 @@ MonoBehaviour:
   rapidFire: 1
   burstFire: 0
   scope: 0
+  isEquiped: 0
+  isPickup: 0
   muzzelFlash:
   - {fileID: 199458, guid: 51b76f616384d4946bed4ecc9a6c2c3e, type: 3}
   - {fileID: 199458, guid: 487eef9aff9d0f543836d5af5ab26430, type: 3}
@@ -207,6 +210,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-4766801237684556378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722750140715894264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remaining: 30
 --- !u!1001 &817195552364713907
 PrefabInstance:
   m_ObjectHideFlags: 0

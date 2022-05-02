@@ -85,6 +85,16 @@ public class Respawn : MonoBehaviour
     public void respawnPlayer()
     {
         gameObject.GetComponent<PlayerController>().resetHealth();
+        //if(gameObject.GetComponent<PlayerController>().gun1().GetComponent<Gun>() != null)
+        //    gameObject.GetComponent<PlayerController>().clone1().GetComponent<Gun>().resetAmmo();
+        //if(gameObject.GetComponent<PlayerController>().clone2().GetComponent<Gun>() != null)
+        //    gameObject.GetComponent<PlayerController>().clone2().GetComponent<Gun>().resetAmmo();
+
+        //if(gameObject.GetComponent<PlayerController>())
+        //{
+
+        //}
+
         int index = (int)Random.Range(0.0f, spawnPointArray.Length);
         //Debug.Log(spawnPointArray[index].position + " is "+spawnPointArray[index].name, spawnPointArray[index]);
 
@@ -96,6 +106,10 @@ public class Respawn : MonoBehaviour
 
         gameObject.GetComponent<CharacterController>().enabled = true;
         gameObject.GetComponent<PlayerController>().makeAlive();
+        gameObject.GetComponent<PlayerController>().gunClone = gameObject.GetComponent<PlayerController>().getPistol();
+        gameObject.GetComponent<PlayerController>().currentGun = gameObject.GetComponent<PlayerController>().gunClone;
+        gameObject.GetComponent<PlayerController>().gunClone.SetActive(true);
+
         //Debug.Log("moved player");
         //Debug.Log("Position after moved is " + transform.position,gameObject);
         //gameObject.GetComponent<PlayerController>().makeAlive();
