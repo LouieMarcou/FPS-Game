@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4823163554994382030}
   - component: {fileID: 185676586126619167}
+  - component: {fileID: 5475581558247291985}
   - component: {fileID: 7993460926093294208}
   - component: {fileID: 7994881341143051827}
   - component: {fileID: 404017688666715323}
@@ -66,6 +67,8 @@ MonoBehaviour:
   rapidFire: 0
   burstFire: 0
   scope: 0
+  isEquiped: 0
+  isPickup: 0
   muzzelFlash:
   - {fileID: 199458, guid: 51b76f616384d4946bed4ecc9a6c2c3e, type: 3}
   - {fileID: 199458, guid: 487eef9aff9d0f543836d5af5ab26430, type: 3}
@@ -78,6 +81,19 @@ MonoBehaviour:
   shoot_sound_source: {fileID: 0}
   reloadSound_source: {fileID: 0}
   hitMarker: {fileID: 0}
+--- !u!114 &5475581558247291985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306508228672929396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e8865ec12b622c41be5f40551b1f1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remaining: 30
 --- !u!114 &7993460926093294208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,14 +107,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  recoilX: -2
-  recoilY: 10
+  recoilX: -25
+  recoilY: 2
   recoilZ: 0.35
-  aimRecoilX: -1.5
-  aimRecoilY: 2
+  aimRecoilX: -10
+  aimRecoilY: 1
   aimRecoilZ: 0.3
   snappiness: 6
-  returnSpeed: 2
+  returnSpeed: 6
 --- !u!65 &7994881341143051827
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -122,7 +138,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0

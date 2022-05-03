@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerSpawnManager : MonoBehaviour
 {
     public Transform[] spawnLocations;
+    public GameObject[] players;
 
     private int numPlayers = 0;
 

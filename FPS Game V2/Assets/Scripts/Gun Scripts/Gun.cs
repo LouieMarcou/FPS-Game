@@ -390,6 +390,7 @@ public class Gun : MonoBehaviour
         gameObject.transform.parent = spawnPosition.transform;
         transform.position = spawnPosition.transform.position;
         gameObject.layer = 10;
+        //Debug.Log("Has returned to spawn");
         //setPosition(spawnPosition.transform);
     }
 

@@ -35,7 +35,7 @@ public class Respawn : MonoBehaviour
     {
         if (canRespawn)
         {
-            Debug.Log("Respawning now");
+            //Debug.Log("Respawning now");
             respawnPlayer();
             canRespawn = false;
         }
@@ -106,6 +106,7 @@ public class Respawn : MonoBehaviour
 
         gameObject.GetComponent<CharacterController>().enabled = true;
         gameObject.GetComponent<PlayerController>().makeAlive();
+
         gameObject.GetComponent<PlayerController>().gunClone = gameObject.GetComponent<PlayerController>().getPistol();
         gameObject.GetComponent<PlayerController>().currentGun = gameObject.GetComponent<PlayerController>().gunClone;
         gameObject.GetComponent<PlayerController>().gunClone.SetActive(true);

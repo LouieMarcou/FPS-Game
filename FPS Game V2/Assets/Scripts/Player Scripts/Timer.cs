@@ -13,10 +13,17 @@ public class Timer : MonoBehaviour
     private bool timerIsRunning = false;
     public bool attachedToPlayer = false;
     public Text timerObject;
+    private GameObject playerManager;
+    private PlayerController player1;
+    private PlayerController player2;
+
     // Start is called before the first frame update
     void Start()
     {
-        if(attachedToPlayer)
+        playerManager = GameObject.Find("Player Manager");
+        player1 = playerManager.GetComponent<PlayerSpawnManager>().players[0].GetComponent<PlayerController>();
+        player2 = playerManager.GetComponent<PlayerSpawnManager>().players[1].GetComponent<PlayerController>();
+        if (attachedToPlayer)
         {
             //Debug.Log(GameObject.Find("GameTimer").GetComponent<Timer>().getRemaining());
             remaining = GameObject.Find("GameTimer").GetComponent<Timer>().getRemaining();
@@ -42,9 +49,26 @@ public class Timer : MonoBehaviour
                 Debug.Log("Time has run out");
                 remaining = 0;
                 timerIsRunning = false;
-                if(attachedToPlayer==false)
+                if(attachedToPlayer == false)
                 {
-                    //have game go to the end scene
+                    GameObject canvas = GameObject.Find("EndScreen");
+                    GameObject victory = GameObject.Find("EndScreen/VictoryText");
+                    GameObject kills = GameObject.Find("EndScreen/PlayerKills");
+                    canvas.SetActive(true);
+                    if(player1.getKills() > player2.getKills())
+                    {
+                        victory.GetComponent<Text>().text = "Player 1 wins!";
+                        kills.GetComponent<Text>().text = "Player 1 kills: " + player1.getKills();
+                    }
+                    else if(player1.getKills() < player2.getKills())
+                    {
+                        victory.GetComponent<Text>().text = "Player 2 wins!";
+                        kills.GetComponent<Text>().text = "Player 2 kills: " + player1.getKills();
+                    }
+                    else if(player1.getKills() == player2.getKills())
+                    {
+                        victory.GetComponent<Text>().text = "It is a draw!";
+                    }
                 }
             }
         }

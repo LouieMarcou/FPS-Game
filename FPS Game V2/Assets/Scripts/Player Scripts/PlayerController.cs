@@ -128,16 +128,17 @@ public class PlayerController : MonoBehaviour
             gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
             cam.GetComponent<Camera>().cullingMask = ~layerMaskForGun;
             layerMaskForGun = 7;
+            playerManager.GetComponent<PlayerSpawnManager>().players[0] = gameObject;
         }
 
         else if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
         {
-            //Debug.Log(gameObject.GetComponent<PlayerDetails>().playerID);
             gunCam.rect = cam.rect;
             layerMaskForGun = (1 << 11) | (1 << 5);
             gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
             cam.GetComponent<Camera>().cullingMask = ~layerMaskForGun;
             layerMaskForGun = 11;
+            playerManager.GetComponent<PlayerSpawnManager>().players[1] = gameObject;
         }
         tempSpeed = playerSpeed;
         gunPosition.layer = layerMaskForGun;
@@ -523,12 +524,12 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.tag == "KillTag")
         {
-            Debug.Log("IN ZONE");
+            //Debug.Log("IN ZONE");
             currentHealth = 0;
         }
     }
 
-    public void cancelSprint()
+    public void cancelSprint()//sets is_sprinting to false and calls updateSprint
     {
         is_sprinting = false;
         updateSprint();
@@ -694,7 +695,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Gun" && hit.transform.root.tag != "Player")
             {
-                Debug.Log("Can pick up");
+                //Debug.Log("Can pick up");
                 pickupObject.SetActive(true);
                 canPickup = true;
                 tempGun = hit.transform.gameObject;
@@ -724,28 +725,28 @@ public class PlayerController : MonoBehaviour
     {
         if (equipGunsAmount == 1)
         {
-            //gun2 = gun1;
-            //gunClone2 = gunClone;
-            //gun1 = tempGun;
-            //gunClone = tempGun;
-            //currentGun.SetActive(false);
 
             gunClone2 = tempGun;
+            gunClone2.SetActive(false);
             startHolster(gunClone);
             startDraw(gunClone2);
             currentGun = gunClone2;
             gun2 = gunClone2;
             equipGunsAmount = 2;
         }
-        else if (gun1 == null)
+        if(equipGunsAmount == 2)
         {
-            gun1 = tempGun;
-            gunClone = tempGun;
-        }
-        else if (gun2 == null)
-        {
-            gun2 = tempGun;
-            gunClone2 = tempGun;
+            Debug.Log(equipGunsAmount);
+            if(currentGun == gunClone)
+            {
+                Debug.Log(gunClone);
+                gunClone = tempGun;
+            }
+            else if(currentGun == gunClone2)
+            {
+                Debug.Log(gunClone2);
+                gunClone2 = tempGun;
+            }
         }
         currentGun = tempGun;
         currentGun.transform.position = gunPosition.transform.position;
@@ -768,25 +769,26 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().useGravity = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         currentGun.layer = 10;
-        currentGun.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+        
         currentGun.GetComponent<Gun>().removePlayerScript();
         currentGun.GetComponent<Gun>().unequip();
         currentGun.GetComponent<Recoil>().removePlayerScript();
         if (currentGun == gunClone)
         {
-            gun1 = null;
+            gunClone = null;
         }
         else if (currentGun == gunClone2)
         {
-            gun2 = null;
+            gunClone2 = null;
         }
         currentGun.GetComponent<GunReset>().hasBeenDropped();
+        //currentGun.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+        currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
         currentGun = null;
     }
 
     public void updateKills()//make this specific to current player
     {
-        //Debug.Log(kills);
         kills++;
         killText.text = "Kills: " + kills;
     }
@@ -816,8 +818,6 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = healthMax;
         healthBar.value = currentHealth;
-        Debug.Log("Is Alive");
-        //Debug.Log("Health is " + currentHealth);
     }
 
     public void checkIfAlive()
@@ -829,11 +829,27 @@ public class PlayerController : MonoBehaviour
             controller.enabled = false;
 
             gameObject.transform.position = deathZone.position;
-            //gun1 = null;
+            gun1 = null;
+            gun1 = pistol;
             gun2 = null;
-            gunClone = null;
+            gunClone.GetComponent<GunReset>().reset();
+            gunClone = pistol;
+            gunClone2.GetComponent<GunReset>().reset();
             gunClone2 = null;
+            
+            currentGun.GetComponent<GunReset>().reset();
+            currentGun = null;
             currentGun = gun1;
+            currentGun.layer = 7;
+            currentGun.transform.position = gunPosition.transform.position;
+            currentGun.transform.parent = gunPosition.transform;
+            currentGun.GetComponent<Gun>().equip();
+            currentGun.GetComponent<GunReset>().hasBeenPickedUp();
+            currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+            currentGun.GetComponent<Rigidbody>().isKinematic = true;
+            currentGun.GetComponent<Gun>().player = gameObject.GetComponent<PlayerController>();
+            currentGun.GetComponent<Recoil>().player = gameObject.GetComponent<PlayerController>();
+            currentGun.layer = layerMaskForGun;
             equipGunsAmount = 1;
         }
     }
@@ -848,14 +864,14 @@ public class PlayerController : MonoBehaviour
         return isAlive;
     }
 
-    public void updateScore()
-    {
-        killText.text = "Kills: " + kills;
-    }
-
     public void addKill()
     {
         kills++;
+    }
+
+    public int getKills()
+    {
+        return kills;
     }
 
     public void setCameraRecoil()
