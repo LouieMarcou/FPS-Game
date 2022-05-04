@@ -399,6 +399,11 @@ public class Gun : MonoBehaviour
         return spawnPosition.transform;
     }
 
+    public GameObject getSpawnPositionObject()
+    {
+        return spawnPosition;
+    }
+
     public void setSpawnPosition(GameObject position)
     {
         //Debug.Log(position);

@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour
     private WaitForSeconds staminaRegentick = new WaitForSeconds(0.05f);
     private WaitForSeconds staminaRegenWait = new WaitForSeconds(2f);
     private WaitForSeconds healthRegenWait = new WaitForSeconds(7f);
-    //private WaitForSeconds holsterWait = new WaitForSeconds(1f);
 
     private Coroutine staminaRegen;
     private Coroutine healthRegen;
@@ -73,7 +72,6 @@ public class PlayerController : MonoBehaviour
     private float currentStamina;
     private float staminaDrain = 15f;
     public float pickupDistance = 4f;
-    //private float targetFieldOfView = 60f;
 
     private int kills = 0;
     private int deaths = 0;
@@ -98,6 +96,7 @@ public class PlayerController : MonoBehaviour
     float m_MySliderValue = 1.0f;//for aniamtion speed testing
 
     private int layerMaskForGun;
+    private int id;
 
     private GameObject pickupObject;
     private Transform pickupTransform;
@@ -110,6 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.GetComponent<CharacterController>();
         controller.enabled = false;
+        playerManager = GameObject.Find("Player Manager");
     }
 
     private void Start()
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         camera_recoil.GetComponent<Recoil>().setPlayer(gameObject.GetComponent<PlayerController>());
         pickupTransform = gameObject.transform.Find("PlayerCanvas/PickupText");
         pickupObject = pickupTransform.gameObject;
-        playerManager = GameObject.Find("Player Manager");
+        id = gameObject.GetComponent<PlayerDetails>().playerID;
 
         if (gameObject.GetComponent<PlayerDetails>().playerID == 1)
         {
@@ -448,7 +448,15 @@ public class PlayerController : MonoBehaviour
         is_joining = context.action.triggered;
         if (is_joining)
         {
-            Debug.Log("Joined?");
+            GameObject timer = GameObject.Find("GameTimer");
+            if(id == 1)
+            {
+                timer.GetComponent<Timer>().setPlayer1(gameObject);
+            }
+            else if(id == 2)
+            {
+                timer.GetComponent<Timer>().setPlayer2(gameObject);
+            }
         }
 
     }
@@ -494,10 +502,9 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)//if you collied with something
     {
-
         if (collision.gameObject.tag == "AmmoPickup")//if the collied object is ammo
         {
-            //Debug.Log(collision.collider.name);
+            Debug.Log(collision.collider.name);
             int current = currentGun.GetComponent<Gun>().maxAmmo;
             int pickup = collision.gameObject.GetComponent<AmmoPickup>().ammoAmount;
             //Debug.Log(pickup);
@@ -516,6 +523,8 @@ public class PlayerController : MonoBehaviour
                 num = max;
             }
             collision.gameObject.SetActive(false);
+            GameObject location = GameObject.Find("AmmoPickupPool");
+            location.GetComponent<AmmoCrateSpawnManager>().Spawning(collision.gameObject);
             currentGun.GetComponent<Gun>().maxAmmo = num;
             if (currentGun.GetComponent<Gun>().getCurrentAmmo() == 0)
             {
@@ -645,8 +654,6 @@ public class PlayerController : MonoBehaviour
     void startHolster(GameObject secondGun)//Starts holster coroutine
     {
         holsterCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Holster(secondGun));
-        //holsterCoroutine = StartCoroutine(holstering(secondGun));
-
     }
 
     IEnumerator holstering(GameObject secondGun)
@@ -665,7 +672,6 @@ public class PlayerController : MonoBehaviour
     void startDraw(GameObject secondGun)//Stars draw coroutine
     {
         drawCoroutine = StartCoroutine(currentGun.GetComponent<Gun>().Draw(secondGun));
-        //drawCoroutine = StartCoroutine(drawing(secondGun));
 
     }
 
@@ -736,15 +742,15 @@ public class PlayerController : MonoBehaviour
         }
         if(equipGunsAmount == 2)
         {
-            Debug.Log(equipGunsAmount);
+            //Debug.Log(equipGunsAmount);
             if(currentGun == gunClone)
             {
-                Debug.Log(gunClone);
+                //Debug.Log(gunClone);
                 gunClone = tempGun;
             }
             else if(currentGun == gunClone2)
             {
-                Debug.Log(gunClone2);
+                //Debug.Log(gunClone2);
                 gunClone2 = tempGun;
             }
         }
@@ -769,7 +775,7 @@ public class PlayerController : MonoBehaviour
         currentGun.GetComponent<Rigidbody>().useGravity = true;
         currentGun.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         currentGun.layer = 10;
-        
+        currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
         currentGun.GetComponent<Gun>().removePlayerScript();
         currentGun.GetComponent<Gun>().unequip();
         currentGun.GetComponent<Recoil>().removePlayerScript();
@@ -783,7 +789,7 @@ public class PlayerController : MonoBehaviour
         }
         currentGun.GetComponent<GunReset>().hasBeenDropped();
         //currentGun.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
-        currentGun.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+        
         currentGun = null;
     }
 
@@ -820,7 +826,7 @@ public class PlayerController : MonoBehaviour
         healthBar.value = currentHealth;
     }
 
-    public void checkIfAlive()
+    public void checkIfAlive()//checks if player is alive. If currentHealth is zero or below this will run
     {
         if (currentHealth <= 0 && isAlive)
         {

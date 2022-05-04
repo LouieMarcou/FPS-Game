@@ -59,11 +59,14 @@ MonoBehaviour:
   reloadTime: 1
   holsterTime: 1
   drawTime: 1
-  damage: 10
+  damage: 8
   range: 100
-  fireRate: 15
+  fireRate: 20
   rapidFire: 1
+  burstFire: 0
   scope: 0
+  isEquiped: 0
+  isPickup: 0
   muzzelFlash: []
   muzzelFlashPool: {fileID: 8665802372328306201, guid: c72924491cb0a7a4f8525bddc412f2bf, type: 3}
   muzzelSpawn: {fileID: 2260668655492848947}

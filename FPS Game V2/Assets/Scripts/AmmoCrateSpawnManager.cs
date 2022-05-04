@@ -8,6 +8,15 @@ public class AmmoCrateSpawnManager : MonoBehaviour
     public GameObject objectToPool;
     public int amountToPool;
     public GameObject[] spawnPoints;
+
+    public float secondsToSpawn;
+    private WaitForSeconds spawnTime;
+    private Coroutine startSpawnTime;
+    void Awake()
+    {
+        spawnTime = new WaitForSeconds(secondsToSpawn);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +28,9 @@ public class AmmoCrateSpawnManager : MonoBehaviour
             tmp = Instantiate(objectToPool, spawnPoints[i].transform);
             tmp.transform.position = spawnPoints[i].transform.position;
             tmp.transform.rotation = spawnPoints[i].transform.rotation;
-            //tmp.SetActive(false);
+            tmp.SetActive(false);
             pooledObjects.Add(tmp);
-
+            Spawning(tmp);
         }
     }
 
@@ -41,5 +50,19 @@ public class AmmoCrateSpawnManager : MonoBehaviour
             }
         }
         return null;
+    }
+    
+    public void Spawning(GameObject crate)
+    {
+        startSpawnTime = StartCoroutine(Wait(crate));
+    }
+
+    IEnumerator Wait(GameObject crate)
+    {
+        //Debug.Log("Starting");
+        yield return spawnTime;
+        crate.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        crate.SetActive(true);
+        //Debug.Log("Finished");
     }
 }

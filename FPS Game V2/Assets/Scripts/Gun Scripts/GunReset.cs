@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GunReset : MonoBehaviour
@@ -9,10 +11,16 @@ public class GunReset : MonoBehaviour
     private bool timerIsRunning = false;
     private GameObject SpawnPoint;
 
+    private WaitForSeconds spawnTime;
+    private Coroutine startSpawnTime;
+    private GameObject waitArea;
     void Awake()
     {
         orignalTime = remaining;
         SpawnPoint = GameObject.Find("Guns");
+        spawnTime = new WaitForSeconds(remaining/2);
+        waitArea = GameObject.Find("GunWaitArea");
+        //Debug.Log(waitArea);
     }
 
     // Start is called before the first frame update
@@ -60,12 +68,24 @@ public class GunReset : MonoBehaviour
             {
                 gameObject.transform.parent = null;
                 gameObject.GetComponent<Gun>().unequip();
-                gameObject.GetComponent<Gun>().returnToSpawn();
-
                 gameObject.GetComponent<Gun>().resetAmmo();
+                gameObject.transform.position = waitArea.transform.position;
+                spawn();
+                gameObject.GetComponent<Gun>().returnToSpawn();
+                
                 gameObject.SetActive(true);
             }
         }
+    }
+
+    public void spawn()
+    {
+        startSpawnTime = StartCoroutine(Wait());
+    }
+
+    IEnumerator Wait()
+    {
+        yield return spawnTime;
     }
 
     public void hasBeenDropped()
