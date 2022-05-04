@@ -119,9 +119,11 @@ public class PlayerController : MonoBehaviour
         pickupTransform = gameObject.transform.Find("PlayerCanvas/PickupText");
         pickupObject = pickupTransform.gameObject;
         id = gameObject.GetComponent<PlayerDetails>().playerID;
+        GameObject timer = GameObject.Find("GameTimer");
 
         if (gameObject.GetComponent<PlayerDetails>().playerID == 1)
         {
+            timer.GetComponent<Timer>().setPlayer1(gameObject);
             gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
             layerMaskForGun = (1 << 7) | (1 << 5);
             //layerMaskForGun = (1 << 7);
@@ -133,6 +135,7 @@ public class PlayerController : MonoBehaviour
 
         else if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
         {
+            timer.GetComponent<Timer>().setPlayer2(gameObject);
             gunCam.rect = cam.rect;
             layerMaskForGun = (1 << 11) | (1 << 5);
             gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
@@ -153,7 +156,7 @@ public class PlayerController : MonoBehaviour
         gunClone.GetComponent<Gun>().equip();
         gunClone.SetActive(true);
         pistol = gunClone;
-
+        currentGun = gunClone;
         //gunClone2 = Instantiate(gun2, gunPosition.transform, false);
         //gunClone2.layer = layerMaskForGun;
         //gunClone2.transform.position = gunPosition.transform.position;
@@ -165,7 +168,7 @@ public class PlayerController : MonoBehaviour
         //gunClone2.GetComponent<Gun>().equip();
         //gunClone2.SetActive(false);
 
-        currentGun = gunClone;
+        
         currentGun.GetComponent<Gun>().animator = animate;
 
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
@@ -426,7 +429,6 @@ public class PlayerController : MonoBehaviour
         is_paused = context.action.triggered;
         if (is_paused)
         {
-            //look.SetActive(false);
             movementInput = pauseMovementInput;
             mouseInput = Vector2.zero;
             mouseInput.x = 0f;
@@ -446,18 +448,6 @@ public class PlayerController : MonoBehaviour
     {
         is_joining = context.ReadValueAsButton();
         is_joining = context.action.triggered;
-        if (is_joining)
-        {
-            GameObject timer = GameObject.Find("GameTimer");
-            if(id == 1)
-            {
-                timer.GetComponent<Timer>().setPlayer1(gameObject);
-            }
-            else if(id == 2)
-            {
-                timer.GetComponent<Timer>().setPlayer2(gameObject);
-            }
-        }
 
     }
 
@@ -469,9 +459,7 @@ public class PlayerController : MonoBehaviour
         setCameraRecoil();
 
         if (movementInput.x == 0 && movementInput.y == 0)
-        {
             cancelSprint();
-        }
         if (is_sprinting)
             updateStamina();
         if (currentGun.GetComponent<Gun>().reloadingCheck() == false && !is_aiming)

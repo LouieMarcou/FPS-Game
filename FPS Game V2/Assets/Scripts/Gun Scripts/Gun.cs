@@ -131,7 +131,7 @@ public class Gun : MonoBehaviour
     public void Firing()
     {
         recoil_script.RecoilFire();//muzzle flash positon does not sync up with the recoil
-
+        player.GetComponent<mouselook>().didFire();
         currentAmmo--;
         shotsFired++;
         int random = Random.Range(0, 5);

@@ -14,8 +14,12 @@ public class Timer : MonoBehaviour
     public bool attachedToPlayer = false;
     public Text timerObject;
     private GameObject playerManager;
-    private PlayerController player1;
-    private PlayerController player2;
+    private GameObject player1;
+    private GameObject player2;
+
+    public GameObject panel;
+    public Text victory;
+    public Text kills;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +30,6 @@ public class Timer : MonoBehaviour
         //    player2 = playerManager.GetComponent<PlayerSpawnManager>().players[1].GetComponent<PlayerController>();
         //else
         //    player2 = null;
-
         if (attachedToPlayer)
         {
             remaining = GameObject.Find("GameTimer").GetComponent<Timer>().getRemaining();
@@ -63,37 +66,44 @@ public class Timer : MonoBehaviour
 
     public void endGameEvent()
     {
-        GameObject canvas = GameObject.Find("EndScreen/Panel");
-        GameObject victory = GameObject.Find("EndScreen/Panel/VictoryText");
-        GameObject kills = GameObject.Find("EndScreen/Panel/PlayerKills");
-        canvas.SetActive(true);
+        //GameObject canvas = GameObject.Find("Panel");
+        //GameObject victory = GameObject.Find("Panel/VictoryText");
+        //GameObject kills = GameObject.Find("Panel/PlayerKills");
+        Debug.Log(victory);
+        Debug.Log(player1);
+        panel.SetActive(true);
         if (player2 != null)
         {
-            if (player1.getKills() > player2.getKills())
+            if (player1.GetComponent<PlayerController>().getKills() > player2.GetComponent<PlayerController>().getKills())
             {
-                victory.GetComponent<Text>().text = "Player 1 wins!";
-                kills.GetComponent<Text>().text = "Player 1 kills: " + player1.getKills();
+                //victory.GetComponent<Text>().text += "Player 1 wins!";
+                victory.text = "Player 1 wins!";
+                //kills.GetComponent<Text>().text += "Player 1 kills: " + player1.getKills();
+                kills.text = "Player 1 kills: " + player1.GetComponent<PlayerController>().getKills();
             }
-            else if (player1.getKills() < player2.getKills())
+            else if (player1.GetComponent<PlayerController>().getKills() < player2.GetComponent<PlayerController>().getKills())
             {
-                victory.GetComponent<Text>().text = "Player 2 wins!";
-                kills.GetComponent<Text>().text = "Player 2 kills: " + player1.getKills();
+                //victory.GetComponent<Text>().text += "Player 2 wins!";
+                victory.text = "Player 2 wins!";
+                //kills.GetComponent<Text>().text += "Player 2 kills: " + player2.getKills();
+                kills.text = "Player 2 kills: " + player2.GetComponent<PlayerController>().getKills();
             }
-            else if (player1.getKills() == player2.getKills())
+            else if (player1.GetComponent<PlayerController>().getKills() == player2.GetComponent<PlayerController>().getKills())
             {
-                victory.GetComponent<Text>().text = "It is a draw!";
+                victory.text = "It is a draw!";
             }
+            Time.timeScale = 0;
         }
     }
 
     public void setPlayer1(GameObject player)
     {
-        player1 = player.GetComponent<PlayerController>();
+        player1 = player;
     }
 
     public void setPlayer2(GameObject player)
     {
-        player2 = player.GetComponent<PlayerController>();
+        player2 = player;
     }
 
     void displayTime(float timeToDisplay)

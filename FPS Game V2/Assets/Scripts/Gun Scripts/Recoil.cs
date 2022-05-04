@@ -12,7 +12,7 @@ public class Recoil : MonoBehaviour
 
     //Rotations
     private Vector3 currentRotation;
-    private Vector3 targetRotation;
+    public Vector3 targetRotation;
 
     //Hipfire Recoil
     [SerializeField] public float recoilX;
@@ -47,8 +47,10 @@ public class Recoil : MonoBehaviour
         //Debug.Log(gameObject,gameObject);
 
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
+        //gameObject.transform.root.gameObject.GetComponent<mouselook>().targetRotation = targetRotation;
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
+
         //Debug.Log(targetRotation + "  " + currentRotation);
     }
 

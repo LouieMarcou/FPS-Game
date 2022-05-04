@@ -69,6 +69,7 @@ public class GunReset : MonoBehaviour
                 gameObject.transform.parent = null;
                 gameObject.GetComponent<Gun>().unequip();
                 gameObject.GetComponent<Gun>().resetAmmo();
+                gameObject.transform.parent = waitArea.transform;
                 gameObject.transform.position = waitArea.transform.position;
                 spawn();
                 gameObject.GetComponent<Gun>().returnToSpawn();
