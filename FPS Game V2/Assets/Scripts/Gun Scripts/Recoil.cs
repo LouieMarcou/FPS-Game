@@ -11,8 +11,9 @@ public class Recoil : MonoBehaviour
     private bool isAiming = false;
 
     //Rotations
-    private Vector3 currentRotation;
+    public Vector3 currentRotation;
     public Vector3 targetRotation;
+    public Vector3 vec;
 
     //Hipfire Recoil
     [SerializeField] public float recoilX;
@@ -34,6 +35,7 @@ public class Recoil : MonoBehaviour
         //{
         //    Debug.Log(gameObject + " is not a gun");
         //}
+        GameObject look = gameObject.transform.root.gameObject;
     }
 
     // Update is called once per frame
@@ -43,15 +45,10 @@ public class Recoil : MonoBehaviour
         {
             isAiming = player.GetComponent<PlayerController>().getAiming();
         }
-        //Debug.Log(recoilX);
-        //Debug.Log(gameObject,gameObject);
-
-        targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, returnSpeed * Time.deltaTime);
-        //gameObject.transform.root.gameObject.GetComponent<mouselook>().targetRotation = targetRotation;
+        targetRotation = Vector3.Lerp(targetRotation, vec, returnSpeed * Time.deltaTime);//trying to return to center of screen
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snappiness * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
 
-        //Debug.Log(targetRotation + "  " + currentRotation);
     }
 
     public void RecoilFire()

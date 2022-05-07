@@ -20,32 +20,19 @@ public class mouselook : MonoBehaviour
     }
     private void Update()
     {
-        if (recoil_script != null)
-        {
-            recoil_script = gameObject.GetComponent<PlayerController>().currentGun.GetComponent<Recoil>();
-            Debug.Log(recoil_script.getTargetRotation());
-        }
         transform.Rotate(Vector3.up, mouseX * Time.deltaTime);
         
         xRotation -= mouseY;
-        //Debug.Log(xRotation);
         xRotation = Mathf.Clamp(xRotation, -xClamp, xClamp);
-        //Debug.Log(xRotation);
-        if (hasFired)
-        {
-            targetRotation = recoil_script.targetRotation;
-            targetRotation.x = xRotation;
-            playerCamera.eulerAngles = targetRotation;
-            hasFired = false;
-        }
-        else
-        {
-            targetRotation = transform.eulerAngles;
-            //Debug.Log(targetRotation.x);
-            targetRotation.x = xRotation;
-            //Debug.Log(targetRotation.x);
-            playerCamera.eulerAngles = targetRotation;
-        }
+
+        regularLook();
+    }
+
+    public void regularLook()
+    {
+        targetRotation = transform.eulerAngles;
+        targetRotation.x = xRotation;
+        playerCamera.eulerAngles = targetRotation;
     }
 
     public void didFire()
@@ -53,10 +40,10 @@ public class mouselook : MonoBehaviour
         hasFired = true;
     }
 
-    //public void setRotation(Vector3 rot)
-    //{
-
-    //}
+    public void assignRecoilScript(Recoil re)
+    {
+        recoil_script = re;
+    }
     public void ReceiveInput (Vector2 mouseInput)
     {
         mouseX = mouseInput.x * sensitivityX;

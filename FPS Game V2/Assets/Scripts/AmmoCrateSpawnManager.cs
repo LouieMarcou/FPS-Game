@@ -9,7 +9,7 @@ public class AmmoCrateSpawnManager : MonoBehaviour
     public int amountToPool;
     public GameObject[] spawnPoints;
 
-    public float secondsToSpawn;
+    public float secondsToSpawn = 30.0f;
     private WaitForSeconds spawnTime;
     private Coroutine startSpawnTime;
     void Awake()

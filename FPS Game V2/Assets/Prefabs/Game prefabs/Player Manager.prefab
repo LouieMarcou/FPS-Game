@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 369809538977307173}
   - component: {fileID: 369809538977307174}
-  - component: {fileID: 369809538977307172}
+  - component: {fileID: 8536859405583354370}
   m_Layer: 0
   m_Name: Player Manager
   m_TagString: Untagged
@@ -88,7 +88,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &369809538977307172
+--- !u!114 &8536859405583354370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,9 +97,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 369809538977307175}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5977066d053d8454ca2696f72fedae0e, type: 3}
+  m_Script: {fileID: 11500000, guid: 73400a932937a3447b321a49675660eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnLocations:
+  - {fileID: 0}
+  - {fileID: 0}
+  players:
   - {fileID: 0}
   - {fileID: 0}

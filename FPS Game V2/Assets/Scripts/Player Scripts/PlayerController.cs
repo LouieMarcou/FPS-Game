@@ -124,9 +124,8 @@ public class PlayerController : MonoBehaviour
         if (gameObject.GetComponent<PlayerDetails>().playerID == 1)
         {
             timer.GetComponent<Timer>().setPlayer1(gameObject);
-            gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.5f, 1.0f);
+            gunCam.GetComponent<Camera>().rect = new Rect(0f, 0f, 1.0f, 1.0f);
             layerMaskForGun = (1 << 7) | (1 << 5);
-            //layerMaskForGun = (1 << 7);
             gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
             cam.GetComponent<Camera>().cullingMask = ~layerMaskForGun;
             layerMaskForGun = 7;
@@ -136,6 +135,8 @@ public class PlayerController : MonoBehaviour
         else if (gameObject.GetComponent<PlayerDetails>().playerID == 2)
         {
             timer.GetComponent<Timer>().setPlayer2(gameObject);
+            GameObject player1 = playerManager.GetComponent<PlayerSpawnManager>().players[0];
+            player1.GetComponent<PlayerController>().gunCam.rect = new Rect(0f, 0f, 0.5f, 1.0f);
             gunCam.rect = cam.rect;
             layerMaskForGun = (1 << 11) | (1 << 5);
             gunCam.GetComponent<Camera>().cullingMask = layerMaskForGun;
@@ -157,6 +158,9 @@ public class PlayerController : MonoBehaviour
         gunClone.SetActive(true);
         pistol = gunClone;
         currentGun = gunClone;
+        currentGun.GetComponent<Gun>().animator = animate;
+        look.assignRecoilScript(currentGun.GetComponent<Recoil>());
+
         //gunClone2 = Instantiate(gun2, gunPosition.transform, false);
         //gunClone2.layer = layerMaskForGun;
         //gunClone2.transform.position = gunPosition.transform.position;
@@ -168,8 +172,8 @@ public class PlayerController : MonoBehaviour
         //gunClone2.GetComponent<Gun>().equip();
         //gunClone2.SetActive(false);
 
-        
-        currentGun.GetComponent<Gun>().animator = animate;
+
+
 
         ammo.text = currentGun.GetComponent<Gun>().updateAmmoText();
         killText.text = "Kills: ";
@@ -387,7 +391,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGun.GetComponent<Gun>().scope)//goes to scope just on click and does not leave
             {
-                //animate.SetBool("Scoped", true);
+                animate.SetBool("Scoped", true);
                 StartCoroutine(gameObject.GetComponent<Scope>().OnScoped());
             }
         }
@@ -395,7 +399,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGun.GetComponent<Gun>().scope)
             {
-                //animate.SetBool("Scoped", false);
+                animate.SetBool("Scoped", false);
                 gameObject.GetComponent<Scope>().OnUnscoped();
             }
         }
@@ -448,7 +452,6 @@ public class PlayerController : MonoBehaviour
     {
         is_joining = context.ReadValueAsButton();
         is_joining = context.action.triggered;
-
     }
 
     void Update()
@@ -899,6 +902,11 @@ public class PlayerController : MonoBehaviour
     {
         return pistol;
     }
+
+    //public GameObject getGunCam()
+    //{
+    //    return 
+    //}
     //void OnGUI()
     //{
     //    GUI.Label(new Rect(0, 25, 40, 60), "Speed");
