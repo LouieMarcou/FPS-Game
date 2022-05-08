@@ -491,6 +491,7 @@ public class PlayerController : MonoBehaviour
         checkIfAlive();
     }
 
+
     void OnCollisionEnter(Collision collision)//if you collied with something
     {
         if (collision.gameObject.tag == "AmmoPickup")//if the collied object is ammo
@@ -503,24 +504,32 @@ public class PlayerController : MonoBehaviour
             int num = 0;
             if (current == max)
                 return;
+            //else if(current == 0)
+            //{
+            //    Debug.Log("Reserve Ammo is empty: " + current);
+            //}
             else if (current + pickup < max)
             {
-                //Debug.Log(current + " + " + pickup + " < " + max);
+                Debug.Log(current + " + " + pickup + " < " + max);
                 num = current + pickup;
             }
             else if (current + pickup >= max)
             {
-                //Debug.Log(current + " + " + pickup + " >= " + max);
+                Debug.Log(current + " + " + pickup + " >= " + max);
                 num = max;
             }
+
             collision.gameObject.SetActive(false);
             GameObject location = GameObject.Find("AmmoPickupPool");
             location.GetComponent<AmmoCrateSpawnManager>().Spawning(collision.gameObject);
+            Debug.Log(num);
             currentGun.GetComponent<Gun>().maxAmmo = num;
-            if (currentGun.GetComponent<Gun>().getCurrentAmmo() == 0)
-            {
-                currentGun.GetComponent<Gun>().Load();
-            }
+            //Debug.Log("Magazine size " + currentGun.GetComponent<Gun>().magazineSize);
+            Debug.Log("Current Ammo " + currentGun.GetComponent<Gun>().getCurrentAmmo());
+            //if (currentGun.GetComponent<Gun>().getCurrentAmmo() == 0)
+            //{
+            //    currentGun.GetComponent<Gun>().Load();
+            //}
         }
         if (collision.gameObject.tag == "KillTag")
         {
@@ -824,6 +833,8 @@ public class PlayerController : MonoBehaviour
             isAlive = false;
             Vector3 temp = gameObject.transform.position;
             controller.enabled = false;
+            gameObject.GetComponent<PlayerController>().enabled = false;
+            look.enabled = false;
 
             gameObject.transform.position = deathZone.position;
             gun1 = null;

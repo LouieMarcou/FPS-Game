@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
     private int shotsFired;
     public int magazineSize;
     public int maxAmmo;//ammo on the right
-    private int totalMaxAmmo;// currentAmmo + maxAmmo
+    private int totalMaxAmmo;//absoulute max ammo. can not go above this
     private int currentAmmo;//ammo on the left
     private int originalMax;
 
@@ -216,11 +216,20 @@ public class Gun : MonoBehaviour
 
         if (shotsFired > maxAmmo)
         {
+            Debug.Log("shotsFired is greater than max ammo: " + shotsFired + " > " + maxAmmo);
             shotsFired = maxAmmo;
         }
-        maxAmmo -= shotsFired;
-        currentAmmo += shotsFired;
+        if(shotsFired<maxAmmo)
+        {
+            Debug.Log("shotsFired is less than max ammo: " + shotsFired + " < " + maxAmmo);
+            Debug.Log("shots fired becomes: " + (magazineSize - currentAmmo));
+            shotsFired = magazineSize - currentAmmo;
 
+        }
+        maxAmmo -= shotsFired;
+        //Debug.Log(shotsFired);
+        currentAmmo += shotsFired;
+        //Debug.Log(shotsFired);
 
         shotsFired = 0;
         animator.SetBool("Reloading", false);
@@ -254,7 +263,7 @@ public class Gun : MonoBehaviour
         isDrawing = true;
         secondGun.SetActive(true);
         float temp = secondGun.GetComponent<Gun>().drawTime / 2;
-        animator.SetFloat("DrawSpeed", temp);
+        //animator.SetFloat("DrawSpeed", temp);
 
         animator.SetBool("Draw", true);
         //animator.Play("GunDraw", 0, 0);

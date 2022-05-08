@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: c05978c4f25c13d48a1831624eb99342, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -614,17 +614,17 @@ MonoBehaviour:
 
     Left Stick to move
 
-    Press in on Left Stick
-    to sprint
+    Left Bumper to sprint
 
-    X to jump
+    X
+    to jump
 
     Square to reload
 
     Circle to pick up weapon
 
-    Triangle
-    to change weapons
+    Triangle to
+    change weapons
 
     Right Stick to look around
 

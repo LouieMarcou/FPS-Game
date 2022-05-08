@@ -80,9 +80,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Left Stick to move
 
-    X to jump
+    Left Bumper to run
 
-    Press in on left to to run
+    X to jump
 
     Square
     to reload
@@ -897,6 +897,7 @@ MonoBehaviour:
   - {fileID: 6702886791325998403, guid: 9e6a1a574c7fefc409a279c82aa59977, type: 3}
   - {fileID: 6719801335843512557, guid: 69fdc8414eb10d4488d1697c12f9ac88, type: 3}
   - {fileID: 8334470500343996559, guid: 76737465a46c96446b32a1f52ed5aec9, type: 3}
+  - {fileID: 373224008836990201, guid: e1801b8b5abe9ad4696ef454ae7cc296, type: 3}
   respawnTextObject: {fileID: 9211578249226618323}
   respawnTimeText: {fileID: 9011218921341217898}
   DeathZone: {fileID: 7571417777933101648, guid: e3c82751278329e41b039d69b7307864, type: 3}
@@ -1488,31 +1489,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9925926
+      value: 0.99074066
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.7536863
+      value: 0.68600005
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.9241482
+      value: 0.92800003
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -0.2000351
+      value: 1.1200027
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -6.7
+      value: -0.6999998
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.6000977
+      value: 0.94000244
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650800513991, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.329956
+      value: 0.32995605
       objectReference: {fileID: 0}
     - target: {fileID: 3655936650933357425, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1876,7 +1877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3655936652394330418, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 4
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3655936652394330418, guid: eff944790a4772f4b8050a737fa1232a, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp

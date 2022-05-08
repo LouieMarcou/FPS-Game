@@ -359,6 +359,17 @@
                 },
                 {
                     "name": "",
+                    "id": "20959725-aed1-4660-be6e-753234e68ba1",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e8c43d0b-f979-4871-bd84-fa1df4b3dd34",
                     "path": "<Keyboard>/r",
                     "interactions": "",

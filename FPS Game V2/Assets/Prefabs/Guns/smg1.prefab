@@ -63,13 +63,18 @@ MonoBehaviour:
   drawTime: 1
   damage: 8
   range: 100
-  fireRate: 20
+  fireRate: 18
   rapidFire: 1
   burstFire: 0
   scope: 0
   isEquiped: 0
   isPickup: 0
-  muzzelFlash: []
+  muzzelFlash:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   muzzelFlashPool: {fileID: 8665802372328306201, guid: c72924491cb0a7a4f8525bddc412f2bf, type: 3}
   muzzelSpawn: {fileID: 2260668655492848947}
   bulletHole: {fileID: 7907528202977083369, guid: 293f185ab1c3dab47b0b3cedeff5ab58, type: 3}

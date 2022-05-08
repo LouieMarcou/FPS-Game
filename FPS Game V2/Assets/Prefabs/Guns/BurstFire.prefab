@@ -93,7 +93,7 @@ MonoBehaviour:
   drawTime: 1
   damage: 12
   range: 100
-  fireRate: 10
+  fireRate: 15
   rapidFire: 0
   burstFire: 1
   scope: 0
@@ -124,6 +124,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  currentRotation: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0}
+  vec: {x: 0, y: 0, z: 0}
   recoilX: -1
   recoilY: 1
   recoilZ: 0.35

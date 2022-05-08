@@ -59,7 +59,7 @@ public class Respawn : MonoBehaviour
                 canRespawn = true;
             }
         }
-        else if (gameObject.GetComponent<PlayerController>().getAliveStatus() == false)//disable this???
+        else if (gameObject.GetComponent<PlayerController>().getAliveStatus() == false)
         {
             gameObject.GetComponent<PlayerController>().updateDeaths();
             //ammoDropHere = DeathZone.transform.position;
@@ -105,6 +105,8 @@ public class Respawn : MonoBehaviour
         transform.position = spawnPointArray[index].position;
 
         gameObject.GetComponent<CharacterController>().enabled = true;
+        gameObject.GetComponent<PlayerController>().enabled = true;
+        gameObject.GetComponent<mouselook>().enabled = true;
         gameObject.GetComponent<PlayerController>().makeAlive();
 
         gameObject.GetComponent<PlayerController>().gunClone = gameObject.GetComponent<PlayerController>().getPistol();
